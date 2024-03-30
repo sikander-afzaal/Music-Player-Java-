@@ -1,0 +1,11 @@
+package task6;
+
+public class Main {
+
+	public static void main(String[] args) {
+		AudioFile music1 = new AudioFile();
+		music1.parsePathNames("/Users/sikanderafzaal/java/music_player/audiofiles/beethoven-ohne-album.mp3");
+
+	}
+
+}

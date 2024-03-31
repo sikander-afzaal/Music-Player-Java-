@@ -688,3 +688,42 @@ Command-line arguments:  -os macosx -ws cocoa -arch aarch64 -product org.eclipse
 
 !ENTRY ch.qos.logback.classic 1 0 2024-03-30 11:51:51.838
 !MESSAGE Logback config file: /Users/sikanderafzaal/java/music_player/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.6.0.20240217-1525.xml
+!SESSION 2024-03-30 12:38:55.340 -----------------------------------------------
+eclipse.buildId=4.31.0.20240307-1200
+java.version=17.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=macosx, ARCH=aarch64, WS=cocoa, NL=en_PK
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/sikanderafzaal/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch aarch64 -product org.eclipse.epp.package.java.product -keyring /Users/sikanderafzaal/.eclipse_keyring
+
+!ENTRY ch.qos.logback.classic 1 0 2024-03-30 12:38:56.380
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-03-30 12:39:00.485
+!MESSAGE Logback config file: /Users/sikanderafzaal/java/music_player/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.6.0.20240217-1525.xml
+!SESSION 2024-03-31 14:16:14.188 -----------------------------------------------
+eclipse.buildId=4.31.0.20240307-1200
+java.version=17.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=macosx, ARCH=aarch64, WS=cocoa, NL=en_PK
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/sikanderafzaal/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch aarch64 -product org.eclipse.epp.package.java.product -keyring /Users/sikanderafzaal/.eclipse_keyring
+
+!ENTRY ch.qos.logback.classic 1 0 2024-03-31 14:16:15.161
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-03-31 14:16:24.030
+!MESSAGE Logback config file: /Users/sikanderafzaal/java/music_player/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.6.0.20240217-1525.xml
+!SESSION 2024-03-31 15:27:44.218 -----------------------------------------------
+eclipse.buildId=4.31.0.20240307-1200
+java.version=17.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=macosx, ARCH=aarch64, WS=cocoa, NL=en_PK
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/sikanderafzaal/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch aarch64 -product org.eclipse.epp.package.java.product -keyring /Users/sikanderafzaal/.eclipse_keyring
+
+!ENTRY ch.qos.logback.classic 1 0 2024-03-31 15:27:45.225
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-03-31 15:27:47.819
+!MESSAGE Logback config file: /Users/sikanderafzaal/java/music_player/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.6.0.20240217-1525.xml

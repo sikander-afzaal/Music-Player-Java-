@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import task6.AudioFile;
+
 /**
  * Tests for method AudioFile/parsePathname()
  */
@@ -20,9 +22,9 @@ public class TestParsePathname {
     public void setUp() {
 		// to test Windows or Linux just use the corresponding lines in comments below
 		// Windows: uncomment the next line
-		sep = Utils.emulateWindows();
+		//sep = Utils.emulateWindows();
 		// Linux: uncomment the next line
-		//sep = Utils.emulateLinux();
+		sep = Utils.emulateLinux();
 
         String osname = System.getProperty("os.name");
         if (!messageShown) {

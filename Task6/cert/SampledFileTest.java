@@ -8,6 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import studiplayer.basic.BasicPlayer;
+import task6.SampledFile;
+import task6.TaggedFile;
+import task6.WavFile;
 
 public class SampledFileTest {
     @SuppressWarnings("rawtypes")

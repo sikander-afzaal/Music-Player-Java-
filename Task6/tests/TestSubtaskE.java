@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import task6.TaggedFile;
+import task6.WavFile;
+
 public class TestSubtaskE {
 	@Test
 	public void test_getAlbum() {

@@ -1,10 +1,11 @@
 package task6;
 
 public abstract class AudioFile {
-	private String pathname;
-	private String filename;
-	private String author;
-	private String title;
+	public String pathname;
+	public String filename;
+	public String author;
+	public String title;
+	
 
 	// parsing filenames
 	/////////// ----------------------------------------------------------------

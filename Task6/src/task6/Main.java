@@ -1,11 +1,11 @@
 package task6;
 public class Main {
 	public static void main(String[] args) {
-		SampledFile music1 = new WavFile("should.not.be.readable.file");
+		TaggedFile music1 = new TaggedFile("audiofiles/wellenmeister_awakening.ogg");
 		
-		System.out.println(music1.toString());
+		music1.readAndStoreTags();	
+		System.out.println(music1.getTitle());
 		System.out.println(music1.getFilename());
 		System.out.println(music1.getPathname());
-		
 	}
 }

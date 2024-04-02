@@ -5,6 +5,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import studiplayer.basic.TagReader;
+import task6.TaggedFile;
 
 public class TestSubtaskB {
 	@Test

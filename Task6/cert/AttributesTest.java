@@ -8,6 +8,11 @@ import java.lang.reflect.Field;
 
 import org.junit.Test;
 
+import task6.AudioFile;
+import task6.SampledFile;
+import task6.TaggedFile;
+import task6.WavFile;
+
 @SuppressWarnings("rawtypes")
 public class AttributesTest {
     // List of all classes

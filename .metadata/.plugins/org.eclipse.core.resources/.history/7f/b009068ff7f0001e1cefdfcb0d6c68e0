@@ -1,0 +1,20 @@
+package task6;
+
+import java.util.Map;
+
+import studiplayer.basic.TagReader;
+
+public class TaggedFile extends SampledFile {
+	public TaggedFile() {
+		super();
+	}
+	public TaggedFile(String pathname) {
+		super(pathname);
+	}
+	public String getAlbum() {return null;}
+	public void readAndStoreTags() {
+		Map<String, Object> tagMap = TagReader.readTags(getPathname());
+		 
+	}
+	public String toString() {return null;}
+}

@@ -5,23 +5,23 @@ import java.io.File;
 import studiplayer.basic.BasicPlayer;
 
 public class SampledFile extends AudioFile {
+	
+	public long duration;
 	public SampledFile() {
 		super();
 	}
 
-	public SampledFile(String pathname) {
+	public SampledFile(String pathname) throws RuntimeException {
 		super(pathname);
+		File file = new File(getPathname());
+		if(!file.canRead()) {
+			throw new RuntimeException("File cannot be read, path might be wrong");
+		}
 	}
 
 
 	public void play() throws RuntimeException {
-		File file = new File(getPathname());
-		if (file.canRead()) {
 			BasicPlayer.play(getPathname());
-		} else {
-			throw new RuntimeException("File cannot be read");
-		}
-
 	}
 
 
@@ -52,8 +52,8 @@ public class SampledFile extends AudioFile {
 		return null;
 	}
 
-	public String getDuration() {
-		return null;
+	public long getDuration() {
+		return duration;
 	}
 
 }

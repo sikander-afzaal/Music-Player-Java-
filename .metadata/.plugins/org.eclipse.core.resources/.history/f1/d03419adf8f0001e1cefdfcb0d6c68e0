@@ -1,0 +1,11 @@
+package task6;
+public class Main {
+	public static void main(String[] args) {
+		TaggedFile music1 = new TaggedFile("audiofiles/wellenmeister_awakening.ogg");
+		
+		System.out.println(music1.toString());
+		System.out.println(music1.getFilename());
+		System.out.println(music1.getPathname());
+		music1.readAndStoreTags();	
+	}
+}

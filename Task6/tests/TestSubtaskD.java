@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import studiplayer.basic.TagReader;
 import studiplayer.basic.WavParamReader;
+import task6.SampledFile;
+import task6.TaggedFile;
+import task6.WavFile;
 
 public class TestSubtaskD {
 	@Test

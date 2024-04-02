@@ -1,0 +1,29 @@
+package task6;
+
+import java.util.Map;
+
+import studiplayer.basic.TagReader;
+
+public class TaggedFile extends SampledFile {
+	public TaggedFile() {
+		super();
+	}
+	public TaggedFile(String pathname) {
+		super(pathname);
+	}
+	public String getAlbum() {return album;}
+	public void readAndStoreTags() {
+		Map<String, Object> tagMap = TagReader.readTags(getPathname());
+		for (String tag : tagMap.keySet()) {
+			Object value = tagMap.get(tag);
+			System.out.printf("key: %-25s value: %-30s (type: %s)\n",
+					tag, value, value.getClass().getSimpleName());
+		
+			
+				
+			 
+			 }
+		 
+	}
+	public String toString() {return null;}
+}

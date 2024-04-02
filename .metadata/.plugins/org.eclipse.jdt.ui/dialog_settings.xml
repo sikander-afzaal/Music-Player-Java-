@@ -48,7 +48,7 @@
 	<section name="org.eclipse.ltk.ui.refactoring.settings">
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item key="pageIndex" value="2"/>
+		<item key="pageIndex" value="1"/>
 	</section>
 	<section name="ClasspathContainerSelectionPage">
 		<item key="index" value="0"/>
@@ -58,5 +58,12 @@
 		<item key="org.eclipse.jdt.internal.ui.typehierarchy.HierarchyInformationControlDIALOG_HEIGHT" value="336"/>
 		<item key="org.eclipse.jdt.internal.ui.typehierarchy.HierarchyInformationControlDIALOG_USE_PERSISTED_SIZE" value="true"/>
 		<item key="org.eclipse.jdt.internal.ui.typehierarchy.HierarchyInformationControlDIALOG_USE_PERSISTED_LOCATION" value="false"/>
+	</section>
+	<section name="AddSourceFolderWizard.dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="189"/>
+		<item key="DIALOG_Y_ORIGIN" value="-4"/>
+		<item key="DIALOG_WIDTH" value="586"/>
+		<item key="DIALOG_HEIGHT" value="538"/>
+		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
 	</section>
 </section>

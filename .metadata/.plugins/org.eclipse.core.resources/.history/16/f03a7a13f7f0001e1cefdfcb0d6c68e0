@@ -1,0 +1,11 @@
+package task6;
+public class Main {
+	public static void main(String[] args) {
+		SampledFile music1 = new WavFile("should.not.be.readable.file");
+		
+		System.out.println(music1.toString());
+		System.out.println(music1.getFilename());
+		System.out.println(music1.getPathname());
+		
+	}
+}

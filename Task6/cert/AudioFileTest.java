@@ -10,6 +10,10 @@ import java.util.Hashtable;
 import org.junit.Before;
 import org.junit.Test;
 
+import task6.AudioFile;
+import task6.TaggedFile;
+import task6.WavFile;
+
 public class AudioFileTest {
 	@SuppressWarnings("rawtypes")
 	private Class clazz = AudioFile.class;

@@ -6,6 +6,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import task6.TaggedFile;
+
 public class TaggedFileTest {
     @SuppressWarnings("rawtypes")
     private Class clazz = TaggedFile.class;

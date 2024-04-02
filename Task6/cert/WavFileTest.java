@@ -7,6 +7,8 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
+import task6.WavFile;
+
 public class WavFileTest {
     @SuppressWarnings("rawtypes")
     private Class clazz = WavFile.class;

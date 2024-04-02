@@ -1,0 +1,10 @@
+package task6;
+public class Main {
+	public static void main(String[] args) {
+		AudioFile music1 = new AudioFile("  //mytemp////part1///file.mp3/");
+		System.out.println(music1.getTitle());
+		System.out.println(music1.getAuthor());
+		System.out.println(music1.getPathname());
+		System.out.println(music1.getFilename());
+	}
+}

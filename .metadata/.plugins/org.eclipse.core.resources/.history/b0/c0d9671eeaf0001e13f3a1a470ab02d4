@@ -1,0 +1,9 @@
+package task6;
+
+public class SampledFile {
+
+	public SampledFile() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

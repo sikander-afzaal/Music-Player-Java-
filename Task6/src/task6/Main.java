@@ -1,10 +1,11 @@
 package task6;
 public class Main {
 	public static void main(String[] args) {
-		AudioFile music1 = new AudioFile("/MP3-Archiv/file-yy.nox");
-		System.out.println(music1.getTitle());
-		System.out.println(music1.getAuthor());
-		System.out.println(music1.getPathname());
+		SampledFile music1 = new WavFile("should.not.be.readable.file");
+		
+		System.out.println(music1.toString());
 		System.out.println(music1.getFilename());
+		System.out.println(music1.getPathname());
+		
 	}
 }

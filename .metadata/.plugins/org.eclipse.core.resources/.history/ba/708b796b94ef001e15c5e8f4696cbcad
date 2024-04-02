@@ -1,0 +1,9 @@
+package task6;
+public class Main {
+	public static void main(String[] args) {
+		AudioFile music1 = new AudioFile("/MP3-Archiv/.nox");
+		
+		System.out.println(music1.toString());
+		System.out.println(music1.getFileName());
+	}
+}

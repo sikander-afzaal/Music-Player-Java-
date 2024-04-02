@@ -1,0 +1,9 @@
+package task6;
+
+public class WavFile {
+
+	public WavFile() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

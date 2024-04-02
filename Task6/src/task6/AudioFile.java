@@ -1,6 +1,6 @@
 package task6;
 
-public class AudioFile {
+public abstract class AudioFile {
 	private String pathname;
 	private String filename;
 	private String author;
@@ -79,11 +79,12 @@ public class AudioFile {
 					thirdIndex++;
 					nextIndex++;
 				}
-				// making a string of slashes to be replaced
-				String slashesReplaced = parsedPath.substring(i, i + numberOfSlashes);
-				// replacing the slashes
-				parsedPath = parsedPath.replace(slashesReplaced, "\\");
+
 			}
+			// making a string of slashes to be replaced
+			String slashesReplaced = parsedPath.substring(i, i + numberOfSlashes);
+			// replacing the slashes
+			parsedPath = parsedPath.replace(slashesReplaced, "\\");
 		}
 		if (parsedPath.endsWith("/"))
 			parsedPath = parsedPath.replace("/", "\\");
@@ -94,27 +95,28 @@ public class AudioFile {
 
 		String parsedPath = path;
 		// correcting the pathname for duplicate slashes
+		String OPERATING_SYSTEM = System.getProperty("os.name").toLowerCase();
 		for (int i = 0; i < parsedPath.length(); i++) {
 			if (i == parsedPath.length() - 1) {
 				continue;
 			}
 			// NOTE FOR ME: THERE IS A BUG FOR WINDOWS IF THERE IS SLASH AT THE END OF THE
 			// PATHNAME
-
-			if (System.getProperty("os.name").toLowerCase().contains("mac os x")
-					|| System.getProperty("os.name").toLowerCase().contains("linux")) {
+			if (OPERATING_SYSTEM.contains("mac os x") || OPERATING_SYSTEM.contains("linux")) {
 				parsedPath = parsePathNameMac(i, parsedPath);
-			} else if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+			} else if (OPERATING_SYSTEM.contains("windows")) {
 				parsedPath = parsePathNameWindows(i, parsedPath);
 			}
 
 		}
-		this.pathname = parsedPath;
-		int lastSlashIndex = this.pathname.lastIndexOf("/") + 1; // to get the filename start index
+		this.pathname = removeSpaces(parsedPath);
+		int lastSlashIndex = OPERATING_SYSTEM.contains("windows") ? parsedPath.lastIndexOf("\\") + 1
+				: parsedPath.lastIndexOf("/") + 1; // to get the filename start index
 		if (lastSlashIndex != -1) {
-			this.filename = this.pathname.substring(lastSlashIndex, this.pathname.length());
+
+			this.filename = removeSpaces(parsedPath.substring(lastSlashIndex, parsedPath.length()));
 		} else
-			this.filename = this.pathname;
+			this.filename = removeSpaces(parsedPath);
 
 	}
 
@@ -123,40 +125,40 @@ public class AudioFile {
 		if (removeSpaces(fileName).isEmpty() || fileName.matches(" - ")) {
 			this.author = "";
 			this.title = "";
-			
-		} 
-		else if (fileName.indexOf(".") == -1) {
+
+		} else if (fileName.indexOf(".") == -1) {
 			this.title = fileName;
 			this.author = "";
-		}
-		else {
-		// finding the perfect breaking point of the title and author ‿-‿ finding this
-		// pattern
-		boolean seperatorIndexFlag = true;
-		int seperatorIndex = fileName.indexOf("-", 0); // gives the index of the first separator
-		while (seperatorIndexFlag && seperatorIndex != -1 ) {
-			if (fileName.substring(seperatorIndex - 1, seperatorIndex).contains(" ")
-					&& fileName.substring(seperatorIndex + 1, seperatorIndex + 2).contains(" ")) {
-				seperatorIndexFlag = false;
-				break;
+		} else {
+			// finding the perfect breaking point of the title and author ‿-‿ finding this
+			// pattern
+			boolean seperatorIndexFlag = true;
+			int seperatorIndex = fileName.indexOf("-", 0); // gives the index of the first separator
+			while (seperatorIndexFlag && seperatorIndex != -1) {
+				if (fileName.substring(seperatorIndex - 1, seperatorIndex).contains(" ")
+						&& fileName.substring(seperatorIndex + 1, seperatorIndex + 2).contains(" ")) {
+					seperatorIndexFlag = false;
+					break;
+				} else {
+					seperatorIndex = fileName.indexOf("-", seperatorIndex + 1);
+				}
+			}
+			// parsing the title and author after the separator is found
+			if (seperatorIndex != -1) {
+				this.author = removeSpaces(fileName.substring(0, seperatorIndex));
+				this.title = fileName.substring(seperatorIndex + 1, fileName.length());
+				int extensionDot = this.title.lastIndexOf(".");
+				this.title = removeSpaces(this.title.substring(0, extensionDot));
+
 			} else {
-				seperatorIndex = fileName.indexOf("-", seperatorIndex + 1);
+				this.title = removeSpaces(fileName.substring(0, fileName.indexOf(".")));
+				this.author = "";
+
 			}
 		}
-		// parsing the title and author after the separator is found
-		if (seperatorIndex != -1) {
-			this.author = removeSpaces(fileName.substring(0, seperatorIndex));
-			this.title = fileName.substring(seperatorIndex + 1, fileName.length());
-			int extensionDot = this.title.lastIndexOf(".");
-			this.title = removeSpaces(this.title.substring(0, extensionDot));
 
-		} else {
-			this.title = removeSpaces(fileName.substring(0,fileName.indexOf(".")));
-			this.author = "";
-
-		}}
-	
 	}
+
 	// ----------------------------------------------------------------
 	// this function removes spaces from the beginning and the end of the string
 	// (util function)
@@ -177,7 +179,7 @@ public class AudioFile {
 
 	// getters ---------------------------------------------------------------
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public String getAuthor() {
@@ -195,9 +197,18 @@ public class AudioFile {
 
 	public String toString() {
 		if (getAuthor().isEmpty()) {
+
 			return getTitle();
 		} else {
 			return getAuthor() + " - " + getTitle();
 		}
 	}
+	
+	public abstract void play();
+	public abstract void togglePause();
+	public abstract void stop();
+	public abstract String formatDuration();
+	public abstract String formatPosition();
+	
+
 }

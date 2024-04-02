@@ -1,0 +1,49 @@
+package task6;
+
+public class SampledFile extends AudioFile{
+	public SampledFile() {
+		super();
+	}
+
+	public SampledFile(String pathname) {
+		super(pathname);
+	}
+
+	@Override
+	public void play() {
+		
+		
+	}
+
+	@Override
+	public void togglePause() {
+		
+		
+	}
+
+	@Override
+	public void stop() {
+		
+		
+	}
+
+	@Override
+	public String formatDuration() {
+		
+		return null;
+	}
+
+	@Override
+	public String formatPosition() {
+		
+		return null;
+	}
+	public static String timeFormatter(long timeInMicroSeconds) {
+		return null;
+	}
+	public String getDuration() {
+		return null;
+	}
+	
+
+}

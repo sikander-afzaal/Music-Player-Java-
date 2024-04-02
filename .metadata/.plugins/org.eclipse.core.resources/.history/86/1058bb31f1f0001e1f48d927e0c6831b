@@ -1,0 +1,13 @@
+package task6;
+
+public class WavFile extends SampledFile {
+	public WavFile() {
+		super();
+	}
+
+	public WavFile(String pathname) {
+		super(pathname);
+	}
+	public void readAndSetDurationFromFile() {}
+	public String toString() {return null;}
+}

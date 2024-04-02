@@ -1,0 +1,9 @@
+package task6;
+
+public class TaggedFile {
+
+	public TaggedFile() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

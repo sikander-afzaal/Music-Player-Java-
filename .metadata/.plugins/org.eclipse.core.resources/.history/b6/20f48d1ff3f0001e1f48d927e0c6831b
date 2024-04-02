@@ -1,0 +1,10 @@
+package task6;
+public class Main {
+	public static void main(String[] args) {
+		SampledFile music1 = new SampledFile("/MP3-Archiv/.nox");
+		
+		System.out.println(music1.toString());
+		System.out.println(music1.getFilename());
+		System.out.println(music1.getPathname());
+	}
+}

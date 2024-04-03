@@ -2,12 +2,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import task6.WavFile;
 
 public class WavFileTest {
     @SuppressWarnings("rawtypes")
@@ -16,13 +12,13 @@ public class WavFileTest {
 
     @Before
     public void setup() {
-        // Initializer block
-        // This checks the proper connection of constructors already
+    	// Initializer block
+    	// This checks the proper connection of constructors already
 
         try {
             f1 = new WavFile("audiofiles/wellenmeister - tranquility.wav");
         } catch (Exception e) {
-            fail("Problem creating AudioFile objects: " + e.getMessage());
+        	fail("Problem creating AudioFile objects: " + e.getMessage());
         }
     }
 

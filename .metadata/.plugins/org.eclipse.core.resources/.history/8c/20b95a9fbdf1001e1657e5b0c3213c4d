@@ -1,0 +1,41 @@
+package task6;
+
+import studiplayer.basic.WavParamReader;
+
+
+public class WavFile extends SampledFile {
+	
+	public WavFile() {
+		super();
+	}
+
+	public WavFile(String pathname) {
+		super(pathname);
+		readAndSetDurationFromFile();
+	}
+	//this function reads and sets the duration of the wav file, we need to calculate it as wav files dont have tags
+	public void readAndSetDurationFromFile() {
+		WavParamReader.readParams(getPathname());
+		float frameRate = WavParamReader.getFrameRate();
+		long numberOfFrames = WavParamReader.getNumberOfFrames();
+		this.duration = computeDuration(numberOfFrames, frameRate);
+
+	}
+	//it converts the object to a string format --> title - author  - duration
+	public String toString() {
+		String finalResult = "";
+		if (getAuthor().isEmpty()) {
+			finalResult = getTitle();
+		} else {
+			finalResult = getAuthor() + " - " + getTitle();
+		}
+		finalResult = finalResult + " - " + formatDuration();
+		return finalResult;
+
+	}
+//this function computes the duration in microseconds 
+	public static long computeDuration(long numberOfFrames, float frameRate) {
+		float durationInSeconds = (numberOfFrames / frameRate); // gives the duration in seconds
+		return (long) Math.round(durationInSeconds * 1000000); // converting to microseconds
+	}
+}

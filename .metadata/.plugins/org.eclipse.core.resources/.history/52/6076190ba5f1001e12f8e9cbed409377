@@ -1,0 +1,79 @@
+package task6;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.Date;
+
+import studiplayer.basic.BasicPlayer;
+
+public abstract class  SampledFile extends AudioFile {
+	
+	public long duration;
+	public SampledFile() {
+		super();
+	}
+
+	public SampledFile(String pathname) throws RuntimeException {
+		super(pathname);
+		File file = new File(getPathname());
+		if(!file.canRead()) {
+			throw new RuntimeException("File cannot be read, path might be wrong");
+		}
+	}
+
+
+	public void play() throws RuntimeException {
+			BasicPlayer.play(getPathname());
+	}
+
+
+	public void togglePause() {
+		BasicPlayer.togglePause();
+
+	}
+
+
+	public void stop() {
+		BasicPlayer.stop();
+
+	}
+
+
+	public String formatDuration() {
+		return timeFormatter(getDuration());
+	}
+
+
+	public String formatPosition() {
+		return timeFormatter(getDuration());
+	}
+
+	public static String timeFormatter(long timeInMicroSeconds) {
+			
+			 long seconds = timeInMicroSeconds/ 1000000;
+			 long minutes = seconds / 60;
+		     long remainingSeconds = seconds % 60;
+		    //this is not needed as %02d does this for us
+		     /* 
+		     if(minutes < 10 && minutes > 0) {
+		    	 finalMinutes = "0" + minutes;
+		     }else {
+		    	 finalMinutes = "" + minutes;
+		     }
+		     if(remainingSeconds < 10 && remainingSeconds > 0) {
+		    	 finalSeconds = "0" + remainingSeconds;
+		     }else {
+		    	 finalSeconds = "" + remainingSeconds;
+		     }*/
+		     
+		    
+		     return String.format("%02d:%02d", minutes, remainingSeconds);
+	}
+
+	public long getDuration() {
+		return duration;
+	}
+
+}

@@ -1,0 +1,18 @@
+
+public class Playlist {
+
+	public Playlist() {
+		
+	}
+	public Playlist(String m3uPathname) {
+		
+	}
+	public void add(AudioFile file) {
+		
+	}
+public void remove(AudioFile file) {
+		
+	}
+public int size() { return 1;}
+
+}

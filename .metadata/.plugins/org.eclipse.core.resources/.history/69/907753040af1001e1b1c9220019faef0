@@ -1,0 +1,10 @@
+package task6;
+public class Main {
+	public static void main(String[] args) {
+		WavFile music1 = new WavFile("audiofiles/wellenmeister - tranquility.wav");
+		
+		System.out.println(music1.getDuration());
+		System.out.println(music1.getFilename());
+		System.out.println(music1.getPathname());
+	}
+}

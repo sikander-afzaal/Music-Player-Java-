@@ -1,0 +1,15 @@
+package studioplayer.audio;
+
+import java.util.Comparator;
+
+public class DurationComparator implements Comparator<AudioFile> {
+
+	public int compare(AudioFile o1, AudioFile o2) {
+		String o1StringRepresentation = o1.toString();
+		String o1Duration = o1StringRepresentation.substring(o1StringRepresentation.indexOf("-"),o1StringRepresentation.length() - 1); 
+		System.out.println(o1Duration);
+		return 0;
+	}
+
+	
+}

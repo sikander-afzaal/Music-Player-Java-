@@ -1,0 +1,14 @@
+package studioplayer.audio;
+
+import java.util.Comparator;
+
+public class AlbumComparator implements Comparator<AudioFile> {
+
+	public int compare(AudioFile o1, AudioFile o2) {
+		String o1String = o1.toString();
+		String o1Album = o1String.substring(o1String.lastIndexOf("-",o1String.length() - 9),o1String.lastIndexOf("-") - 1);
+		System.out.println(o1Album);
+		String o2String = o2.toString();
+		 return -1;
+	}
+}

@@ -1,0 +1,9 @@
+package studioplayer.audio;
+
+public class AlbumComparator {
+
+	public AlbumComparator() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

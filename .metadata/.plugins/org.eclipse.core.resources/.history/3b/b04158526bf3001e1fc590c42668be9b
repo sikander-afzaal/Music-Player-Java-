@@ -1,0 +1,17 @@
+package studioplayer.audio;
+
+import java.util.Comparator;
+
+public class AlbumComparator implements Comparator<AudioFile> {
+
+	public int compare(AudioFile o1, AudioFile o2) {
+		 try {
+			o1 = AudioFileFactory.createAudioFile(o1.getPathname());
+		} catch (NotPlayableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+}

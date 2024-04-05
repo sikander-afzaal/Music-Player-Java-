@@ -7,15 +7,14 @@ import java.util.List;
 
 import org.junit.Test;
 
-import studiplayer.audio.AlbumComparator;
-import studiplayer.audio.AudioFile;
-import studiplayer.audio.AuthorComparator;
-import studiplayer.audio.DurationComparator;
-import studiplayer.audio.NotPlayableException;
-import studiplayer.audio.TaggedFile;
-import studiplayer.audio.TitleComparator;
-import studiplayer.audio.WavFile;
-
+import studioplayer.audio.AlbumComparator;
+import studioplayer.audio.AudioFile;
+import studioplayer.audio.AuthorComparator;
+import studioplayer.audio.DurationComparator;
+import studioplayer.audio.NotPlayableException;
+import studioplayer.audio.TaggedFile;
+import studioplayer.audio.TitleComparator;
+import studioplayer.audio.WavFile;
 public class TestSubtaskD {
     private void debug(String msg, List<AudioFile> list) {
         System.out.println("----");

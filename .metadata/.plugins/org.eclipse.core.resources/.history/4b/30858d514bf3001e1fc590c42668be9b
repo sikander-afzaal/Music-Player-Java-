@@ -1,0 +1,9 @@
+package studioplayer.audio;
+
+public class TitleComparator {
+
+	public TitleComparator() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

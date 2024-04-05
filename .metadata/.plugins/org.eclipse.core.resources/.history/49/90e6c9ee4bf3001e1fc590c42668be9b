@@ -1,0 +1,8 @@
+package studioplayer.audio;
+
+public class TitleComparator {
+
+	public int compare(AudioFile o1, AudioFile o2) {
+		return 0;
+	}
+}

@@ -1,10 +1,12 @@
-package task6;
+package studioplayer.audio;
 
-public class AudioFile {
+import java.io.File;
+
+public abstract class AudioFile {
 	private String pathname;
 	private String filename;
-	private String author;
-	private String title;
+	protected String author;
+	protected String title;
 
 	// parsing filenames
 	/////////// ----------------------------------------------------------------
@@ -17,9 +19,13 @@ public class AudioFile {
 		this.title = "";
 	}
 
-	public AudioFile(String pathname) {
+	public AudioFile(String pathname) throws NotPlayableException {
 		parsePathname(pathname);
 		parseFilename(this.filename);
+		File file = new File(getPathname());
+		if (!file.canRead()) {
+			throw new NotPlayableException(pathname,"File cannot be read, path might be wrong");
+		}
 	}
 
 	// parsing functions
@@ -79,11 +85,12 @@ public class AudioFile {
 					thirdIndex++;
 					nextIndex++;
 				}
-				// making a string of slashes to be replaced
-				String slashesReplaced = parsedPath.substring(i, i + numberOfSlashes);
-				// replacing the slashes
-				parsedPath = parsedPath.replace(slashesReplaced, "\\");
+
 			}
+			// making a string of slashes to be replaced
+			String slashesReplaced = parsedPath.substring(i, i + numberOfSlashes);
+			// replacing the slashes
+			parsedPath = parsedPath.replace(slashesReplaced, "\\");
 		}
 		if (parsedPath.endsWith("/"))
 			parsedPath = parsedPath.replace("/", "\\");
@@ -99,10 +106,8 @@ public class AudioFile {
 			if (i == parsedPath.length() - 1) {
 				continue;
 			}
-			// NOTE FOR ME: THERE IS A BUG FOR WINDOWS IF THERE IS SLASH AT THE END OF THE
-			// PATHNAME
-			if (OPERATING_SYSTEM.contains("mac os x")
-					|| OPERATING_SYSTEM.contains("linux")) {
+
+			if (OPERATING_SYSTEM.contains("mac os x") || OPERATING_SYSTEM.contains("linux")) {
 				parsedPath = parsePathNameMac(i, parsedPath);
 			} else if (OPERATING_SYSTEM.contains("windows")) {
 				parsedPath = parsePathNameWindows(i, parsedPath);
@@ -110,8 +115,10 @@ public class AudioFile {
 
 		}
 		this.pathname = removeSpaces(parsedPath);
-		int lastSlashIndex = OPERATING_SYSTEM .contains("windows") ? parsedPath.lastIndexOf("\\") + 1 :  parsedPath.lastIndexOf("/") + 1; // to get the filename start index
+		int lastSlashIndex = OPERATING_SYSTEM.contains("windows") ? parsedPath.lastIndexOf("\\") + 1
+				: parsedPath.lastIndexOf("/") + 1; // to get the filename start index
 		if (lastSlashIndex != -1) {
+
 			this.filename = removeSpaces(parsedPath.substring(lastSlashIndex, parsedPath.length()));
 		} else
 			this.filename = removeSpaces(parsedPath);
@@ -149,7 +156,7 @@ public class AudioFile {
 				this.title = removeSpaces(this.title.substring(0, extensionDot));
 
 			} else {
-				this.title = removeSpaces(fileName.substring(0, fileName.indexOf(".")));
+				this.title = removeSpaces(fileName.substring(0, fileName.lastIndexOf(".")));
 				this.author = "";
 
 			}
@@ -162,6 +169,9 @@ public class AudioFile {
 	// (util function)
 	// --------
 	public String removeSpaces(String name) {
+		if (name == null) {
+			return "";
+		}
 		// removing spaces from the beginning-----------------
 		while (name.startsWith(" ")) {
 			name = name.substring(1, name.length());
@@ -177,12 +187,12 @@ public class AudioFile {
 
 	// getters ---------------------------------------------------------------
 	public String getTitle() {
-		return this.title;
+		return removeSpaces(this.title);
 	}
 
 	public String getAuthor() {
 
-		return this.author;
+		return removeSpaces(this.author);
 	}
 
 	public String getPathname() {
@@ -195,12 +205,21 @@ public class AudioFile {
 
 	public String toString() {
 		if (getAuthor().isEmpty()) {
-			if(getTitle().isEmpty()) {
-				return "";
-			}else {
-			return getTitle();}
+
+			return getTitle();
 		} else {
 			return getAuthor() + " - " + getTitle();
 		}
 	}
+
+	public abstract void play() throws NotPlayableException;
+
+	public abstract void togglePause();
+
+	public abstract void stop();
+
+	public abstract String formatDuration();
+
+	public abstract String formatPosition();
+
 }

@@ -1,0 +1,11 @@
+package studioplayer.audio;
+
+import java.util.List;
+
+public class ControllablePlayListIterator {
+
+	public ControllablePlayListIterator(List<AudioFile> playlist ) {
+		
+	}
+
+}

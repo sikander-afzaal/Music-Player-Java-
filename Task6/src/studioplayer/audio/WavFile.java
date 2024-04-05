@@ -1,0 +1,52 @@
+package studioplayer.audio;
+
+
+import java.io.File;
+
+import studiplayer.basic.WavParamReader;
+
+
+public class WavFile extends SampledFile {
+	
+	public WavFile() {
+		super();
+	}
+
+	public WavFile(String pathname) throws NotPlayableException {
+		super(pathname);
+		File file = new File(getPathname());
+		if (!file.canRead()) {
+			throw new NotPlayableException(pathname,"File cannot be read, path might be wrong");
+		}
+		readAndSetDurationFromFile();
+	}
+	//this function reads and sets the duration of the wav file, we need to calculate it as wav files dont have tags
+	public void readAndSetDurationFromFile() throws NotPlayableException {
+		try {
+			WavParamReader.readParams(getPathname());
+		} catch (Exception e) {
+			throw new NotPlayableException(getPathname(),"Parameters not found");
+		}
+		long numberOfFrames = WavParamReader.getNumberOfFrames();
+		float frameRate = WavParamReader.getFrameRate();
+		this.duration = computeDuration(numberOfFrames, frameRate);
+
+	}
+	//it converts the object to a string format --> title - author  - duration
+	public String toString() {
+		String finalResult = "";
+		if (getAuthor().isEmpty()) {
+			finalResult = getTitle();
+		} else {
+			finalResult = getAuthor() + " - " + getTitle();
+		}
+		finalResult = finalResult + " - " + formatDuration();
+		return finalResult;
+
+	}
+//this function computes the duration in microseconds 
+	public static long computeDuration(long numberOfFrames, float frameRate) {
+		float durationInSeconds = (numberOfFrames / frameRate); // gives the duration in seconds
+		return (long) Math.round(durationInSeconds * 1000000); // converting to microseconds
+	}
+}

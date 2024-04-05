@@ -1,0 +1,9 @@
+
+public class Main {
+	public static void main(String[] args) {
+		AudioFileFactory music1 = new AudioFileFactory("audiofiles/Rock 812.mp3");
+		
+		
+		
+	}
+}

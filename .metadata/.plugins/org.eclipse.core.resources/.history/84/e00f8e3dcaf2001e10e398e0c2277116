@@ -1,0 +1,10 @@
+
+public class AudioFileFactory {
+
+	public AudioFileFactory() {
+		public AudioFile createAudioFile(String pathname) {
+			return null;
+		}
+	}
+
+}

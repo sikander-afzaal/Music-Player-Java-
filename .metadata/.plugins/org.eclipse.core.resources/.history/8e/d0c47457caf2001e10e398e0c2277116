@@ -1,0 +1,8 @@
+
+public class AudioFileFactory {
+
+	public AudioFileFactory() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

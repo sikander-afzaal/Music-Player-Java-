@@ -1,0 +1,12 @@
+
+public class AudioFileFactory {
+
+	public AudioFileFactory(String path) {
+		createAudioFile(path);
+	}
+	public static AudioFile createAudioFile(String path) {
+		String fileExtension = path.substring(path.lastIndexOf('.') + 1, path.length());
+		System.out.print(fileExtension);
+		return null;
+	}
+}

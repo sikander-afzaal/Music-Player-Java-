@@ -1,0 +1,219 @@
+package studioplayer.audio;
+
+public abstract class AudioFile {
+	private String pathname;
+	private String filename;
+	protected String author;
+	protected String title;
+
+	// parsing filenames
+	/////////// ----------------------------------------------------------------
+
+	// constructors ----------------------------------------------------------------
+	public AudioFile() {
+		this.pathname = "";
+		this.filename = "";
+		this.author = "";
+		this.title = "";
+	}
+
+	public AudioFile(String pathname) {
+		parsePathname(pathname);
+		parseFilename(this.filename);
+	}
+
+	// parsing functions
+	// ----------------------------------------------------------------
+	public String parsePathNameMac(int i, String parsedPath) {
+		int numberOfSlashes = 1;// counting the number of slashes
+		int nextIndex = i + 1; // next index of the string relative to i
+		// if the current index is a colon then move with this if statement
+		if (parsedPath.substring(i, nextIndex).contains(":")) {
+			parsedPath = parsedPath.replace(":", "/");
+			parsedPath = "/" + parsedPath;
+
+		}
+		// if the current index is a slash then move with this if statement
+		if (parsedPath.substring(i, nextIndex).contains("/") || parsedPath.substring(i, nextIndex).contains("\\")) {
+			int thirdIndex = nextIndex + 1; // temporary pointer to check forward slashes e.g ///
+			// checks if there are more slashes next to the previous slash
+			if ((parsedPath.substring(nextIndex, thirdIndex).contains("/"))
+					|| (parsedPath.substring(nextIndex, thirdIndex).contains("\\"))) {
+				// loops until duplicate slashes found while incrementing nextIndex and
+				// thirdIndex
+				while (parsedPath.substring(nextIndex, thirdIndex).contains("/")
+						|| parsedPath.substring(nextIndex, thirdIndex).contains("\\")) {
+					numberOfSlashes++;
+					thirdIndex++;
+					nextIndex++;
+				}
+				// making a string of slashes to be replaced
+				String slashesReplaced = parsedPath.substring(i, i + numberOfSlashes);
+				// replacing the slashes
+				parsedPath = parsedPath.replace(slashesReplaced, "/");
+			}
+		}
+
+		return parsedPath;
+	}
+
+	public String parsePathNameWindows(int i, String parsedPath) {
+		int numberOfSlashes = 1;// counting the number of slashes
+		int nextIndex = i + 1; // next index of the string relative to i
+		// if the current index is a colon then move with this if statement
+		if (parsedPath.substring(i, nextIndex).contains(":")) {
+			parsedPath = parsedPath.replace(":", ":/");
+
+		}
+		// if the current index is a slash then move with this if statement
+		if (parsedPath.substring(i, nextIndex).contains("/") || parsedPath.substring(i, nextIndex).contains("\\")) {
+			int thirdIndex = nextIndex + 1; // temporary pointer to check forward slashes e.g ///
+			// checks if there are more slashes next to the previous slash
+			if ((parsedPath.substring(nextIndex, thirdIndex).contains("/"))
+					|| (parsedPath.substring(nextIndex, thirdIndex).contains("\\"))) {
+				// loops until duplicate slashes found while incrementing nextIndex and
+				// thirdIndex
+				while (parsedPath.substring(nextIndex, thirdIndex).contains("/")
+						|| parsedPath.substring(nextIndex, thirdIndex).contains("\\")) {
+					numberOfSlashes++;
+					thirdIndex++;
+					nextIndex++;
+				}
+
+			}
+			// making a string of slashes to be replaced
+			String slashesReplaced = parsedPath.substring(i, i + numberOfSlashes);
+			// replacing the slashes
+			parsedPath = parsedPath.replace(slashesReplaced, "\\");
+		}
+		if (parsedPath.endsWith("/"))
+			parsedPath = parsedPath.replace("/", "\\");
+		return parsedPath;
+	}
+
+	public void parsePathname(String path) {
+
+		String parsedPath = path;
+		// correcting the pathname for duplicate slashes
+		String OPERATING_SYSTEM = System.getProperty("os.name").toLowerCase();
+		for (int i = 0; i < parsedPath.length(); i++) {
+			if (i == parsedPath.length() - 1) {
+				continue;
+			}
+
+			if (OPERATING_SYSTEM.contains("mac os x") || OPERATING_SYSTEM.contains("linux")) {
+				parsedPath = parsePathNameMac(i, parsedPath);
+			} else if (OPERATING_SYSTEM.contains("windows")) {
+				parsedPath = parsePathNameWindows(i, parsedPath);
+			}
+
+		}
+		this.pathname = removeSpaces(parsedPath);
+		int lastSlashIndex = OPERATING_SYSTEM.contains("windows") ? parsedPath.lastIndexOf("\\") + 1
+				: parsedPath.lastIndexOf("/") + 1; // to get the filename start index
+		if (lastSlashIndex != -1) {
+
+			this.filename = removeSpaces(parsedPath.substring(lastSlashIndex, parsedPath.length()));
+		} else
+			this.filename = removeSpaces(parsedPath);
+
+	}
+
+	public void parseFilename(String fileName) {
+
+		if (removeSpaces(fileName).isEmpty() || fileName.matches(" - ")) {
+			this.author = "";
+			this.title = "";
+
+		} else if (fileName.indexOf(".") == -1) {
+			this.title = fileName;
+			this.author = "";
+		} else {
+			// finding the perfect breaking point of the title and author ‿-‿ finding this
+			// pattern
+			boolean seperatorIndexFlag = true;
+			int seperatorIndex = fileName.indexOf("-", 0); // gives the index of the first separator
+			while (seperatorIndexFlag && seperatorIndex != -1) {
+				if (fileName.substring(seperatorIndex - 1, seperatorIndex).contains(" ")
+						&& fileName.substring(seperatorIndex + 1, seperatorIndex + 2).contains(" ")) {
+					seperatorIndexFlag = false;
+					break;
+				} else {
+					seperatorIndex = fileName.indexOf("-", seperatorIndex + 1);
+				}
+			}
+			// parsing the title and author after the separator is found
+			if (seperatorIndex != -1) {
+				this.author = removeSpaces(fileName.substring(0, seperatorIndex));
+				this.title = fileName.substring(seperatorIndex + 1, fileName.length());
+				int extensionDot = this.title.lastIndexOf(".");
+				this.title = removeSpaces(this.title.substring(0, extensionDot));
+
+			} else {
+				this.title = removeSpaces(fileName.substring(0, fileName.lastIndexOf(".")));
+				this.author = "";
+
+			}
+		}
+
+	}
+
+	// ----------------------------------------------------------------
+	// this function removes spaces from the beginning and the end of the string
+	// (util function)
+	// --------
+	public String removeSpaces(String name) {
+		if (name == null) {
+			return "";
+		}
+		// removing spaces from the beginning-----------------
+		while (name.startsWith(" ")) {
+			name = name.substring(1, name.length());
+
+		}
+		// removing spaces from the end--------------------------
+		while (name.endsWith(" ")) {
+			name = name.substring(0, name.length() - 1);
+		}
+		return name;
+
+	}
+
+	// getters ---------------------------------------------------------------
+	public String getTitle() {
+		return removeSpaces(this.title);
+	}
+
+	public String getAuthor() {
+
+		return removeSpaces(this.author);
+	}
+
+	public String getPathname() {
+		return this.pathname;
+	}
+
+	public String getFilename() {
+		return this.filename;
+	}
+
+	public String toString() {
+		if (getAuthor().isEmpty()) {
+
+			return getTitle();
+		} else {
+			return getAuthor() + " - " + getTitle();
+		}
+	}
+
+	public abstract void play();
+
+	public abstract void togglePause();
+
+	public abstract void stop();
+
+	public abstract String formatDuration();
+
+	public abstract String formatPosition();
+
+}

@@ -1,0 +1,25 @@
+package studioplayer.audio;
+
+public class NotPlayableException extends Exception {
+	private String savedPathname = "";
+	public NotPlayableException(String pathname, String msg) {
+		setSavedPathname(pathname);
+	}
+
+	public NotPlayableException(String pathname, Throwable t) {
+		setSavedPathname(pathname);
+	}
+
+	public NotPlayableException(String pathname, String msg, Throwable t) {
+		setSavedPathname(pathname);
+	}
+
+	public String getSavedPathname() {
+		return savedPathname;
+	}
+
+	public void setSavedPathname(String savedPathname) {
+		this.savedPathname = savedPathname;
+	}
+
+}

@@ -12,10 +12,10 @@ import java.util.Hashtable;
 import org.junit.Before;
 import org.junit.Test;
 
-import studiplayer.audio.AudioFile;
-import studiplayer.audio.NotPlayableException;
-import studiplayer.audio.TaggedFile;
-import studiplayer.audio.WavFile;
+import studioplayer.audio.AudioFile;
+import studioplayer.audio.NotPlayableException;
+import studioplayer.audio.TaggedFile;
+import studioplayer.audio.WavFile;
 
 public class AudioFileTest {
 

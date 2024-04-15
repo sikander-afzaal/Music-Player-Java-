@@ -24,7 +24,7 @@ public abstract class AudioFile {
 		parseFilename(this.filename);
 		File file = new File(getPathname());
 		if (!file.canRead()) {
-			throw new NotPlayableException(pathname,"File cannot be read, path might be wrong");
+			throw new NotPlayableException(pathname, "File cannot be read, path might be wrong");
 		}
 	}
 
@@ -114,20 +114,20 @@ public abstract class AudioFile {
 			}
 
 		}
-		this.pathname = removeSpaces(parsedPath);
+		this.pathname = parsedPath.trim();
 		int lastSlashIndex = OPERATING_SYSTEM.contains("windows") ? parsedPath.lastIndexOf("\\") + 1
 				: parsedPath.lastIndexOf("/") + 1; // to get the filename start index
 		if (lastSlashIndex != -1) {
 
-			this.filename = removeSpaces(parsedPath.substring(lastSlashIndex, parsedPath.length()));
+			this.filename = parsedPath.substring(lastSlashIndex, parsedPath.length()).trim();
 		} else
-			this.filename = removeSpaces(parsedPath);
+			this.filename = parsedPath.trim();
 
 	}
 
 	public void parseFilename(String fileName) {
 
-		if (removeSpaces(fileName).isEmpty() || fileName.matches(" - ")) {
+		if (fileName.trim().isEmpty() || fileName.matches(" - ")) {
 			this.author = "";
 			this.title = "";
 
@@ -150,13 +150,13 @@ public abstract class AudioFile {
 			}
 			// parsing the title and author after the separator is found
 			if (seperatorIndex != -1) {
-				this.author = removeSpaces(fileName.substring(0, seperatorIndex));
+				this.author = fileName.substring(0, seperatorIndex).trim();
 				this.title = fileName.substring(seperatorIndex + 1, fileName.length());
 				int extensionDot = this.title.lastIndexOf(".");
-				this.title = removeSpaces(this.title.substring(0, extensionDot));
+				this.title = this.title.substring(0, extensionDot).trim();
 
 			} else {
-				this.title = removeSpaces(fileName.substring(0, fileName.lastIndexOf(".")));
+				this.title = fileName.substring(0, fileName.lastIndexOf(".")).trim();
 				this.author = "";
 
 			}
@@ -168,31 +168,31 @@ public abstract class AudioFile {
 	// this function removes spaces from the beginning and the end of the string
 	// (util function)
 	// --------
-	public String removeSpaces(String name) {
-		if (name == null) {
-			return "";
-		}
-		// removing spaces from the beginning-----------------
-		while (name.startsWith(" ")) {
-			name = name.substring(1, name.length());
+	// public String removeSpaces(String name) {
+	// if (name == null) {
+	// return "";
+	// }
+	// // removing spaces from the beginning-----------------
+	// while (name.startsWith(" ")) {
+	// name = name.substring(1, name.length());
 
-		}
-		// removing spaces from the end--------------------------
-		while (name.endsWith(" ")) {
-			name = name.substring(0, name.length() - 1);
-		}
-		return name;
+	// }
+	// // removing spaces from the end--------------------------
+	// while (name.endsWith(" ")) {
+	// name = name.substring(0, name.length() - 1);
+	// }
+	// return name;
 
-	}
+	// }
 
 	// getters ---------------------------------------------------------------
 	public String getTitle() {
-		return removeSpaces(this.title);
+		return this.title.trim();
 	}
 
 	public String getAuthor() {
 
-		return removeSpaces(this.author);
+		return this.author.trim();
 	}
 
 	public String getPathname() {
@@ -205,13 +205,18 @@ public abstract class AudioFile {
 
 	public String toString() {
 		if (getAuthor().isEmpty()) {
-
 			return getTitle();
 		} else {
 			return getAuthor() + " - " + getTitle();
 		}
 	}
 
+	public String getAlbum() {
+		return "";
+	}
+	public long getDuration() {
+		return -1l;
+	}
 	public abstract void play() throws NotPlayableException;
 
 	public abstract void togglePause();

@@ -1,8 +1,0 @@
-package task6;
-public class Main {
-	public static void main(String[] args) {
-		TaggedFile music1 = new TaggedFile("audiofiles/Rock 812.mp3");
-		
-		System.out.println(music1.getAlbum();
-	}
-}

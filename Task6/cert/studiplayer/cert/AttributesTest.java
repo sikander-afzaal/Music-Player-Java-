@@ -10,18 +10,18 @@ import java.lang.reflect.Field;
 
 import org.junit.Test;
 
-import studiplayer.audio.AlbumComparator;
-import studiplayer.audio.AudioFile;
-import studiplayer.audio.AudioFileFactory;
-import studiplayer.audio.AuthorComparator;
-import studiplayer.audio.DurationComparator;
-import studiplayer.audio.NotPlayableException;
-import studiplayer.audio.PlayList;
-import studiplayer.audio.SampledFile;
-import studiplayer.audio.SortCriterion;
-import studiplayer.audio.TaggedFile;
-import studiplayer.audio.TitleComparator;
-import studiplayer.audio.WavFile;
+import studioplayer.audio.AlbumComparator;
+import studioplayer.audio.AudioFile;
+import studioplayer.audio.AudioFileFactory;
+import studioplayer.audio.AuthorComparator;
+import studioplayer.audio.DurationComparator;
+import studioplayer.audio.NotPlayableException;
+import studioplayer.audio.PlayList;
+import studioplayer.audio.SampledFile;
+import studioplayer.audio.SortCriterion;
+import studioplayer.audio.TaggedFile;
+import studioplayer.audio.TitleComparator;
+import studioplayer.audio.WavFile;
 
 @SuppressWarnings("rawtypes")
 public class AttributesTest {

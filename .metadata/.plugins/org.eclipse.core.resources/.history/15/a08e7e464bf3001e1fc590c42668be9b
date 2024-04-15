@@ -1,9 +1,0 @@
-package studioplayer.audio;
-
-public class AuthorComparator {
-
-	public AuthorComparator() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

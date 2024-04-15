@@ -9,10 +9,10 @@ import java.lang.reflect.Modifier;
 import org.junit.Before;
 import org.junit.Test;
 
-import studiplayer.audio.NotPlayableException;
-import studiplayer.audio.SampledFile;
-import studiplayer.audio.TaggedFile;
-import studiplayer.audio.WavFile;
+import studioplayer.audio.NotPlayableException;
+import studioplayer.audio.SampledFile;
+import studioplayer.audio.TaggedFile;
+import studioplayer.audio.WavFile;
 import studiplayer.basic.BasicPlayer;
 
 public class SampledFileTest {
@@ -39,7 +39,7 @@ public class SampledFileTest {
     @Test
     public void testSuperClass() {
         assertEquals("SampledFile ist not derived from AudioFile",
-                "studiplayer.audio.AudioFile", clazz.getSuperclass().getName());
+                "studioplayer.audio.AudioFile", clazz.getSuperclass().getName());
     }
 
     @Test

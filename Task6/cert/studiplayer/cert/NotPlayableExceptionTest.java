@@ -9,9 +9,9 @@ import java.lang.reflect.Method;
 
 import org.junit.Test;
 
-import studiplayer.audio.AudioFile;
-import studiplayer.audio.AudioFileFactory;
-import studiplayer.audio.NotPlayableException;
+import studioplayer.audio.AudioFile;
+import studioplayer.audio.AudioFileFactory;
+import studioplayer.audio.NotPlayableException;
 
 public class NotPlayableExceptionTest {
     @Test
@@ -51,7 +51,7 @@ public class NotPlayableExceptionTest {
         Class[] ex = meth.getExceptionTypes();
         if (ex.length == 0)
             return false;
-        if (studiplayer.audio.NotPlayableException.class.equals(ex[0])) {
+        if (NotPlayableException.class.equals(ex[0])) {
             return true;
         }
         return false;
@@ -62,7 +62,7 @@ public class NotPlayableExceptionTest {
         Class[] ex = meth.getExceptionTypes();
         if (ex.length == 0)
             return false;
-        if (studiplayer.audio.NotPlayableException.class.equals(ex[0])) {
+        if (NotPlayableException.class.equals(ex[0])) {
             return true;
         }
         return false;

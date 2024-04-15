@@ -7,8 +7,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import studiplayer.audio.NotPlayableException;
-import studiplayer.audio.WavFile;
+import studioplayer.audio.NotPlayableException;
+import studioplayer.audio.WavFile;
 
 public class WavFileTest {
     @SuppressWarnings("rawtypes")
@@ -30,7 +30,7 @@ public class WavFileTest {
     @Test
     public void testSuperClass() {
         assertEquals("WavFile ist not derived from SampledFile",
-                "studiplayer.audio.SampledFile", clazz.getSuperclass()
+                "studioplayer.audio.SampledFile", clazz.getSuperclass()
                         .getName());
     }
 

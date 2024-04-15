@@ -6,10 +6,10 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import studiplayer.audio.AudioFile;
-import studiplayer.audio.PlayList;
-import studiplayer.audio.SortCriterion;
-import studiplayer.audio.TaggedFile;
+import studioplayer.audio.AudioFile;
+import studioplayer.audio.PlayList;
+import studioplayer.audio.SortCriterion;
+import studioplayer.audio.TaggedFile;
 
 public class TestSubtaskG {
     @Test

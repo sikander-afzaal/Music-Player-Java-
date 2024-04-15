@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import studiplayer.audio.SortCriterion;
+import studioplayer.audio.SortCriterion;
 
 public class SortCriterionTest {
 

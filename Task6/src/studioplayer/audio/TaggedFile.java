@@ -1,6 +1,5 @@
 package studioplayer.audio;
 
-
 import java.io.File;
 import java.util.Map;
 
@@ -17,46 +16,48 @@ public class TaggedFile extends SampledFile {
 		super(pathname);
 		File file = new File(getPathname());
 		if (!file.canRead()) {
-			throw new NotPlayableException(pathname,"File cannot be read, path might be wrong");
+			throw new NotPlayableException(pathname, "File cannot be read, path might be wrong");
 		}
 		readAndStoreTags();
 	}
 
 	// getter for the albums
 	public String getAlbum() {
-		return removeSpaces(album);
+		return album == null ? "" : album.trim();
 	}
 
-//this functions reads and stores the tags in a key value pair and then extracts the four attributes we need
+	// this functions reads and stores the tags in a key value pair and then
+	// extracts the four attributes we need
 	public void readAndStoreTags() throws NotPlayableException {
 		try {
 			TagReader.readTags(getPathname());
 		} catch (Exception e) {
-			throw new NotPlayableException(getPathname(),"Tags not found");
+			throw new NotPlayableException(getPathname(), "Tags not found");
 		}
 		Map<String, Object> tagMap = TagReader.readTags(getPathname());
 		for (String tag : tagMap.keySet()) {
 			Object value = tagMap.get(tag);
 			switch (tag) {
-			case "title":
-				this.title = (String) value;
-				break;
-			case "album":
-				this.album = (String) value;
-				break;
-			case "author":
-				this.author = (String) value;
-				break;
-			case "duration":
-				this.duration = (long) value;
-				break;
+				case "title":
+					this.title = (String) value;
+					break;
+				case "album":
+					this.album = (String) value;
+					break;
+				case "author":
+					this.author = (String) value;
+					break;
+				case "duration":
+					this.duration = (long) value;
+					break;
 			}
 
 		}
 
 	}
 
-	// it converts the object to a string format -->  author - title - album - duration
+	// it converts the object to a string format --> author - title - album -
+	// duration
 	public String toString() {
 		String finalResult = "";
 		if (getAlbum().isEmpty()) {
@@ -71,9 +72,8 @@ public class TaggedFile extends SampledFile {
 			} else {
 				finalResult = getAuthor() + " - " + getTitle() + " - " + getAlbum();
 			}
-			
+
 		}
-		System.out.println(this.getClass().getSuperclass().getName());
 		finalResult = finalResult + " - " + formatDuration();
 		return finalResult;
 	}

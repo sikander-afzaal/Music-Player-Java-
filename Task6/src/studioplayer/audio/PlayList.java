@@ -3,17 +3,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class PlayList {
-	private int current;
-	LinkedList<AudioFile> AudioList = new LinkedList<>();
+public class PlayList implements Iterable<AudioFile> {
+
+	private String search;
+	private SortCriterion sortCriterion = SortCriterion.DEFAULT;
+	LinkedList<AudioFile> audioFiles = new LinkedList<>();
+	ControllablePlayListIterator musicPlayer = new ControllablePlayListIterator(audioFiles);
 
 	public PlayList() {
-		setCurrent(0);
+		
 	}
 
 	public PlayList(String m3uPathname) throws NotPlayableException {
@@ -22,11 +25,14 @@ public class PlayList {
 
 	public void add(AudioFile file) {
 		getList().add(file);
+		musicPlayer.setCurrentIdx(0);
 
 	}
 
 	public void remove(AudioFile file) {
 		getList().remove(file);
+		musicPlayer.setCurrentIdx(0);
+
 	}
 
 	public int size() {
@@ -34,60 +40,50 @@ public class PlayList {
 	}
 
 	public AudioFile currentAudioFile() {
-		if ( getList().isEmpty()) {
-			return null;
-		} else
-			return getList().get(getCurrent());
+		return musicPlayer.getCurrentAudioFile();
 	}
 
 	public void nextSong() {
-		int nextSongIndex = getCurrent() + 1;
-		if (nextSongIndex >= this.size()) {
-			setCurrent(0);
-			;
-		} else {
-			setCurrent(nextSongIndex);
-		}
+		musicPlayer.next();
 	}
 
 	public void loadFromM3U(String pathname) throws NotPlayableException {
 		getList().clear();
-		setCurrent(0);
+		System.out.print(pathname);
 		Scanner scanner = null;
-		
+
 		try {
 			// open the file for reading
 			scanner = new Scanner(new File(pathname));
-			//while there are lines the while loop runs
+			// while there are lines the while loop runs
 			while (scanner.hasNextLine()) {
-				//stores the next line in this variable
+				// stores the next line in this variable
 				String line = scanner.nextLine();
-				//if blank or starts with # skip this iteration
-				if(line.startsWith("#") || line.isBlank()) {
+				// if blank or starts with # skip this iteration
+				if (line.startsWith("#") || line.isBlank()) {
 					continue;
-				}else {
-					//else add the line / path to the List
+				} else {
+					// else add the line / path to the List
 					try {
 						getList().add(AudioFileFactory.createAudioFile(line));
-						
+
 					} catch (Exception e) {
 						System.err.println("NotPlayableException caught: " + e.getMessage());
-                        e.printStackTrace();
-                        //continues with the file
-					}}
+						e.printStackTrace();
+						// continues with the file
+					}
+				}
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			throw new NotPlayableException(pathname, "File Not Found");
 		} finally {
 			try {
-				scanner.close();	
+				scanner.close();
 			} catch (Exception e) {
 				// ignore; probably because file could not be opened
 			}
 		}
-		
-		
 
 	}
 
@@ -117,25 +113,38 @@ public class PlayList {
 	}
 
 	public List<AudioFile> getList() {
-		return AudioList;
+		return audioFiles;
 	}
 
-//change type of parameter later -------
-	public void setSortCriterion(String sort) {
-	}
+	// change type of parameter later -------
 
 	public void setSearch(String value) {
+		this.search = value;
+		
+		musicPlayer.sortAndFilterPlaylist(getList(), value, getSortCriterion());
+
 	}
 
-	public int getCurrent() {
-		return this.current;
+	public SortCriterion getSortCriterion() {
+		return sortCriterion;
 	}
 
-	public void setCurrent(int current) {
-		this.current = current;
+	public void setSortCriterion(SortCriterion sortCriterion) {
+		this.sortCriterion = sortCriterion;
+		musicPlayer.sortAndFilterPlaylist(getList(), getSearch(), sortCriterion);
+
 	}
 
-	public void jumpToAudioFile(AudioFile file) {
+	public String getSearch() {
+		return search;
+	}
+
+	public Iterator<AudioFile> iterator() {
+		return new ControllablePlayListIterator(getList(), getSearch(), getSortCriterion());
+	}
+
+	public AudioFile jumpToAudioFile(AudioFile file) {
+		return musicPlayer.jumpToAudioFile(file);
 	}
 
 }

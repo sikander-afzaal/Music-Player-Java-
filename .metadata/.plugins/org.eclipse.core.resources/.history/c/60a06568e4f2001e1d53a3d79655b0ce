@@ -1,9 +1,0 @@
-package studioplayer.audio;
-
-public class NotPlayableException {
-
-	public NotPlayableException() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

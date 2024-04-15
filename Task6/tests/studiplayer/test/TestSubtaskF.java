@@ -11,11 +11,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import studiplayer.audio.AudioFile;
-import studiplayer.audio.NotPlayableException;
-import studiplayer.audio.PlayList;
-import studiplayer.audio.SortCriterion;
-import studiplayer.audio.TaggedFile;
+import studioplayer.audio.AudioFile;
+import studioplayer.audio.NotPlayableException;
+import studioplayer.audio.PlayList;
+import studioplayer.audio.SortCriterion;
+import studioplayer.audio.TaggedFile;
 
 public class TestSubtaskF {
 

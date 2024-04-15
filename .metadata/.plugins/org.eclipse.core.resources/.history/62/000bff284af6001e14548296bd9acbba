@@ -1,0 +1,150 @@
+package studioplayer.audio;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+
+public class PlayList implements Iterable<AudioFile> {
+
+	private String search;
+	private SortCriterion sortCriterion = SortCriterion.DEFAULT;
+	LinkedList<AudioFile> AudioList = new LinkedList<>();
+	ControllablePlayListIterator musicPlayer = new ControllablePlayListIterator(AudioList);
+
+	public PlayList() {
+
+	}
+
+	public PlayList(String m3uPathname) throws NotPlayableException {
+		loadFromM3U(m3uPathname);
+	}
+
+	public void add(AudioFile file) {
+		getList().add(file);
+		musicPlayer.setCurrentIdx(0);
+
+	}
+
+	public void remove(AudioFile file) {
+		getList().remove(file);
+		musicPlayer.setCurrentIdx(0);
+
+	}
+
+	public int size() {
+		return getList().size();
+	}
+
+	public AudioFile currentAudioFile() {
+		return musicPlayer.getCurrentAudioFile();
+	}
+
+	public void nextSong() {
+		musicPlayer.next();
+	}
+
+	public void loadFromM3U(String pathname) throws NotPlayableException {
+		getList().clear();
+
+		Scanner scanner = null;
+
+		try {
+			// open the file for reading
+			scanner = new Scanner(new File(pathname));
+			// while there are lines the while loop runs
+			while (scanner.hasNextLine()) {
+				// stores the next line in this variable
+				String line = scanner.nextLine();
+				// if blank or starts with # skip this iteration
+				if (line.startsWith("#") || line.isBlank()) {
+					continue;
+				} else {
+					// else add the line / path to the List
+					try {
+						getList().add(AudioFileFactory.createAudioFile(line));
+
+					} catch (Exception e) {
+						System.err.println("NotPlayableException caught: " + e.getMessage());
+						e.printStackTrace();
+						// continues with the file
+					}
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			throw new NotPlayableException(pathname, "File Not Found");
+		} finally {
+			try {
+				scanner.close();
+			} catch (Exception e) {
+				// ignore; probably because file could not be opened
+			}
+		}
+
+	}
+
+	public void saveAsM3U(String pathname) {
+		FileWriter writer = null;
+		String sep = System.getProperty("line.separator");
+		try {
+			// create the file if it does not exist, otherwise reset the file
+			// and open it for writing
+			writer = new FileWriter(pathname);
+			for (AudioFile file : getList()) {
+				// write the current line + newline char
+				writer.write(file.getPathname() + sep);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to write file " + pathname + "!");
+		} finally {
+			try {
+				System.out.println("File " + pathname + " written!");
+				// close the file writing back all buffers
+				writer.close();
+			} catch (Exception e) {
+				// ignore exception; probably because file could not be opened
+			}
+		}
+
+	}
+
+	public List<AudioFile> getList() {
+		return AudioList;
+	}
+
+	// change type of parameter later -------
+
+	public void setSearch(String value) {
+		this.search = value;
+		musicPlayer.resetPlaylist(getList(), search, sortCriterion);
+
+	}
+
+	public SortCriterion getSortCriterion() {
+		return sortCriterion;
+	}
+
+	public void setSortCriterion(SortCriterion sortCriterion) {
+		this.sortCriterion = sortCriterion;
+		musicPlayer.resetPlaylist(getList(), search, sortCriterion);
+
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public Iterator<AudioFile> iterator() {
+		return new ControllablePlayListIterator(getList(), getSearch(), getSortCriterion());
+	}
+
+	public AudioFile jumpToAudioFile(AudioFile file) {
+		return musicPlayer.jumpToAudioFile(file);
+	}
+
+}

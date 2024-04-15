@@ -1,0 +1,26 @@
+package studioplayer.audio;
+
+import java.util.Comparator;
+
+public class AlbumComparator implements Comparator<AudioFile> {
+
+	public int compare(AudioFile o1, AudioFile o2) {
+		if(o1.getAlbum() == null) {
+			return -1;
+		}
+		if(o2.getAlbum() == null) {
+			return 1;
+		}
+		int i = 0;
+		while (o1.getAlbum().charAt(i) == o2.getAlbum().charAt(i)) {
+			i++;
+		}
+		
+		char o1AlbumFirstChar = o1.getAlbum().charAt(i);
+		char o2AlbumFirstChar = o2.getAlbum().charAt(i);
+		if(o1AlbumFirstChar > o2AlbumFirstChar) {
+			return 1;
+		}else return -1; 
+
+	}
+}

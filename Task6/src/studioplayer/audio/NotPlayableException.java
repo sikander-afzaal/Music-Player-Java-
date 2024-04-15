@@ -3,8 +3,11 @@ package studioplayer.audio;
 public class NotPlayableException extends Exception {
 	private static final long serialVersionUID = 1L;
 	private String savedPathname = "";
+	private String msg = "";
+
 	public NotPlayableException(String pathname, String msg) {
 		setSavedPathname(pathname);
+		this.msg = msg;
 	}
 
 	public NotPlayableException(String pathname, Throwable t) {
@@ -12,7 +15,7 @@ public class NotPlayableException extends Exception {
 	}
 
 	public NotPlayableException(String pathname, String msg, Throwable t) {
-		setSavedPathname(pathname);
+		setSavedPathname(pathname);this.msg = msg;
 	}
 
 	public String getSavedPathname() {
@@ -22,5 +25,5 @@ public class NotPlayableException extends Exception {
 	public void setSavedPathname(String savedPathname) {
 		this.savedPathname = savedPathname;
 	}
-
+	
 }

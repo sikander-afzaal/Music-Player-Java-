@@ -6,13 +6,13 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import studiplayer.audio.AlbumComparator;
-import studiplayer.audio.AudioFile;
-import studiplayer.audio.AudioFileFactory;
-import studiplayer.audio.AuthorComparator;
-import studiplayer.audio.DurationComparator;
-import studiplayer.audio.NotPlayableException;
-import studiplayer.audio.TitleComparator;
+import studioplayer.audio.AlbumComparator;
+import studioplayer.audio.AudioFile;
+import studioplayer.audio.AudioFileFactory;
+import studioplayer.audio.AuthorComparator;
+import studioplayer.audio.DurationComparator;
+import studioplayer.audio.NotPlayableException;
+import studioplayer.audio.TitleComparator;
 
 public class ComparatorTest {
 

@@ -1,0 +1,31 @@
+package studioplayer.audio;
+
+import java.util.Comparator;
+
+public class DurationComparator implements Comparator<AudioFile> {
+
+	public int compare(AudioFile o1, AudioFile o2) {
+		String o1StringRepresentation = o1.toString();
+		if(o1StringRepresentation.isEmpty()) {
+			return -1;
+		}
+		String o1Duration = o1StringRepresentation.substring(o1StringRepresentation.lastIndexOf("-") + 1,o1StringRepresentation.length()).trim(); 
+		int o1Minutes = Integer.parseInt(o1Duration.substring(0,o1Duration.indexOf(":")));
+		int o1Seconds = Integer.parseInt(o1Duration.substring(o1Duration.indexOf(":") + 1,o1Duration.length()));
+		
+		if(o2.getDuration() == -1) {
+			return -1;
+		}
+		
+		
+		if(o1.getDuration() > o2.getDuration()) {
+			return 1;
+		}
+		;
+		}else return -1;
+		
+		
+	}
+
+	
+}

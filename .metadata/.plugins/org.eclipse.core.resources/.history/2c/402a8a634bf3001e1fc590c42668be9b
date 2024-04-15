@@ -1,9 +1,0 @@
-package studioplayer.audio;
-
-public class DurationComparator {
-
-	public DurationComparator() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

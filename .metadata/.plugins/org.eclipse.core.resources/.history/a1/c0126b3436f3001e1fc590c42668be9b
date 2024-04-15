@@ -1,9 +1,0 @@
-package studioplayer.audio;
-
-public class ControllablePlayListIterator {
-
-	public ControllablePlayListIterator() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

@@ -6,11 +6,11 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import studioplayer.audio.AudioFile;
-import studioplayer.audio.AudioFileFactory;
-import studioplayer.audio.NotPlayableException;
-import studioplayer.audio.TaggedFile;
-import studioplayer.audio.WavFile;
+import studiplayer.audio.AudioFile;
+import studiplayer.audio.AudioFileFactory;
+import studiplayer.audio.NotPlayableException;
+import studiplayer.audio.TaggedFile;
+import studiplayer.audio.WavFile;
 
 public class AudioFileFactoryTest {
     @Test
@@ -19,19 +19,19 @@ public class AudioFileFactoryTest {
             AudioFile f1 = AudioFileFactory
                     .createAudioFile("audiofiles/Rock 812.mp3");
             assertEquals("MP3 type not recognized",
-                    "studioplayer.audio.TaggedFile", f1.getClass().getName());
+                    "studiplayer.audio.TaggedFile", f1.getClass().getName());
             AudioFile f2 = AudioFileFactory
                     .createAudioFile("audiofiles/wellenmeister - tranquility.wav");
             assertEquals("WAV type not recognized",
-                    "studioplayer.audio.WavFile", f2.getClass().getName());
+                    "studiplayer.audio.WavFile", f2.getClass().getName());
             AudioFile f3 = AudioFileFactory
                     .createAudioFile("audiofiles/wellenmeister_awakening.ogg");
             assertEquals("OGG type not recognized",
-                    "studioplayer.audio.TaggedFile", f3.getClass().getName());
+                    "studiplayer.audio.TaggedFile", f3.getClass().getName());
             AudioFile f4 = AudioFileFactory
                     .createAudioFile("audiofiles/special.oGg");
             assertEquals("OGG type not recognized",
-                    "studioplayer.audio.TaggedFile", f4.getClass().getName());
+                    "studiplayer.audio.TaggedFile", f4.getClass().getName());
             AudioFile f5 = AudioFileFactory
                     .createAudioFile("audiofiles/kein.wav.sondern.ogg");
             assertTrue("Check for filename suffix not correct",

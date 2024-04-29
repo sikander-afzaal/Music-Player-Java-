@@ -6,13 +6,13 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import studioplayer.audio.AlbumComparator;
-import studioplayer.audio.AudioFile;
-import studioplayer.audio.AudioFileFactory;
-import studioplayer.audio.AuthorComparator;
-import studioplayer.audio.DurationComparator;
-import studioplayer.audio.NotPlayableException;
-import studioplayer.audio.TitleComparator;
+import studiplayer.audio.AlbumComparator;
+import studiplayer.audio.AudioFile;
+import studiplayer.audio.AudioFileFactory;
+import studiplayer.audio.AuthorComparator;
+import studiplayer.audio.DurationComparator;
+import studiplayer.audio.NotPlayableException;
+import studiplayer.audio.TitleComparator;
 
 public class ComparatorTest {
 
@@ -46,14 +46,18 @@ public class ComparatorTest {
 
             public void togglePause() {
             }
+
+            public String[] fields() {
+                return null;
+            }
         }
         
         // Wir bauen uns mehrere AudioFile Objekte. Darunter auch Objekte der
         // hier eigens abgeleiteten Klasse MidiFile.
         try {
             mp3 = AudioFileFactory.createAudioFile("audiofiles/Rock 812.mp3");
-            wav = AudioFileFactory
-                    .createAudioFile("audiofiles/wellenmeister - tranquility.wav");
+            wav = AudioFileFactory.createAudioFile(
+            		"audiofiles/wellenmeister - tranquility.wav");
             midi1 = new MidiFile("audiofiles/kein.wav.sondern.ogg");
             midi2 = new MidiFile("audiofiles/Rock 812.mp3");
         } catch (NotPlayableException e) {

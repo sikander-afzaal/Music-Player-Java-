@@ -16,12 +16,12 @@ import java.util.List;
 
 import org.junit.Test;
 
-import studioplayer.audio.AudioFile;
-import studioplayer.audio.NotPlayableException;
-import studioplayer.audio.PlayList;
-import studioplayer.audio.SortCriterion;
-import studioplayer.audio.TaggedFile;
-import studioplayer.audio.WavFile;
+import studiplayer.audio.AudioFile;
+import studiplayer.audio.NotPlayableException;
+import studiplayer.audio.PlayList;
+import studiplayer.audio.SortCriterion;
+import studiplayer.audio.TaggedFile;
+import studiplayer.audio.WavFile;
 
 public class PlayListTest {
     // Note: we do not check the behavior of setCurrent()/getCurrent() with respect
@@ -158,7 +158,7 @@ public class PlayListTest {
     }
 
     @Test
-    public void testSaveAndLoadM3U() throws NotPlayableException {
+    public void testSaveAndLoadM3U() {
         // Create a play list
         PlayList pl1 = new PlayList();
         try {
@@ -214,7 +214,7 @@ public class PlayListTest {
     }
 
     @Test
-    public void testLenientLoadM3U() throws NotPlayableException {
+    public void testLenientLoadM3U() {
         final String m3uName = "pl.m3u";
         File m3u = new File(m3uName);
 
@@ -242,7 +242,7 @@ public class PlayListTest {
     }
 
     @Test
-    public void testLenientLoadM3UHarder() throws NotPlayableException {
+    public void testLenientLoadM3UHarder() {
         final String m3uName = "pl.m3u";
         File m3u = new File(m3uName);
 

@@ -1,6 +1,5 @@
 package studiplayer.cert;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -12,10 +11,10 @@ import java.util.Hashtable;
 import org.junit.Before;
 import org.junit.Test;
 
-import studioplayer.audio.AudioFile;
-import studioplayer.audio.NotPlayableException;
-import studioplayer.audio.TaggedFile;
-import studioplayer.audio.WavFile;
+import studiplayer.audio.AudioFile;
+import studiplayer.audio.NotPlayableException;
+import studiplayer.audio.TaggedFile;
+import studiplayer.audio.WavFile;
 
 public class AudioFileTest {
 

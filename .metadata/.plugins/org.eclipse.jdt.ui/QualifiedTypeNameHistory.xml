@@ -10,13 +10,10 @@
     <fullyQualifiedTypeName name="WavFile"/>
     <fullyQualifiedTypeName name="AudioFileFactory"/>
     <fullyQualifiedTypeName name="com.sun.tools.sjavac.Package"/>
-    <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="studiplayer.basic.TagReader"/>
-    <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
     <fullyQualifiedTypeName name="java.util.ListIterator"/>
     <fullyQualifiedTypeName name="org.junit.runner.JUnitCommandLineParseResult.CommandLineParserError"/>
     <fullyQualifiedTypeName name="java.util.Comparator"/>
-    <fullyQualifiedTypeName name="studioplayer.audio.NotPlayableException"/>
     <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="studioplayer.audio.AudioFileFactory"/>
     <fullyQualifiedTypeName name="studioplayer.audio.WavFile"/>
@@ -34,9 +31,18 @@
     <fullyQualifiedTypeName name="java.util.Iterator"/>
     <fullyQualifiedTypeName name="studioplayer.audio.ControllablePlayListIterator"/>
     <fullyQualifiedTypeName name="java.util.List"/>
-    <fullyQualifiedTypeName name="studioplayer.audio.AudioFile"/>
     <fullyQualifiedTypeName name="studioplayer.audio.SortCriterion"/>
     <fullyQualifiedTypeName name="java.util.LinkedList"/>
-    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="java.io.BufferedReader"/>
+    <fullyQualifiedTypeName name="java.io.FileReader"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="studioplayer.audio.NotPlayableException"/>
+    <fullyQualifiedTypeName name="studioplayer.audio.AudioFile"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
+    <fullyQualifiedTypeName name="studiplayer.audio.NotPlayableException"/>
+    <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
 </qualifiedTypeNameHistroy>

@@ -1,7 +1,6 @@
 package studiplayer.cert;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -12,11 +11,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import studioplayer.audio.AudioFile;
-import studioplayer.audio.ControllablePlayListIterator;
-import studioplayer.audio.NotPlayableException;
-import studioplayer.audio.SortCriterion;
-import studioplayer.audio.TaggedFile;
+import studiplayer.audio.AudioFile;
+import studiplayer.audio.ControllablePlayListIterator;
+import studiplayer.audio.NotPlayableException;
+import studiplayer.audio.SortCriterion;
+import studiplayer.audio.TaggedFile;
 
 public class ControllablePlayListIteratorTest {
     @Test

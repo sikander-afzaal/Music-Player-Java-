@@ -1,0 +1,36 @@
+package studiplayer.audio;
+
+import java.util.Comparator;
+
+public class AlbumComparator implements Comparator<AudioFile>{
+
+	public int compare(AudioFile af1, AudioFile af2) {
+		
+		if(af1 != null && af2 != null) {
+			//if af2 is not a Tagged File then it will not have an album so shuffle it to the front
+			if((af1 instanceof TaggedFile) && !(af2 instanceof TaggedFile)) {
+				return 1;
+			}
+			//if af1 is not a Tagged File then it will not have an album, let it remain there as its already infront
+			else if(!(af1 instanceof TaggedFile) && (af2 instanceof TaggedFile)) {
+				return -1;
+			}
+			//if af1 and af2 both are not a Tagged File then leave it as it is
+			else if(!(af1 instanceof TaggedFile) && !(af2 instanceof TaggedFile)) {
+				return 0;
+			}
+			else {
+				if(((TaggedFile) af1).getAlbum() == null || ((TaggedFile) af2).getAlbum() == null) {
+					throw new NullPointerException("Fehler, ein String aus getAlbum() ist null ! (Album)");
+				}
+				else {
+					return ((TaggedFile) af1).getAlbum().compareTo(((TaggedFile) af2).getAlbum());
+				}
+			}
+		}
+		else {
+			throw new NullPointerException("Fehler, eins der beiden Parameter ist null ! (Album)");
+		}
+	}
+
+}

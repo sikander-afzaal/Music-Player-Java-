@@ -7,8 +7,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import studioplayer.audio.NotPlayableException;
-import studioplayer.audio.TaggedFile;
+import studiplayer.audio.NotPlayableException;
+import studiplayer.audio.TaggedFile;
 
 public class TaggedFileTest {
     @SuppressWarnings("rawtypes")
@@ -32,7 +32,7 @@ public class TaggedFileTest {
     @Test
     public void testSuperClass() {
         assertEquals("TaggedFile ist not derived from SampledFile",
-                "studioplayer.audio.SampledFile", clazz.getSuperclass()
+                "studiplayer.audio.SampledFile", clazz.getSuperclass()
                         .getName());
     }
 

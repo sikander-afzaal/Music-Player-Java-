@@ -1,0 +1,25 @@
+package studiplayer.audio;
+
+public enum SortCriterion {
+	DEFAULT("Default"),
+	ALBUM("Album"),
+	TITLE("Title"),
+	AUTHOR("Author"),
+	DURATION("Duration");
+
+    private final String label;
+
+    // Constructor
+    SortCriterion(String label) {
+        this.label = label;
+    }
+
+    // Override toString() method to return the label
+    @Override
+    public String toString() {
+        if (this == DEFAULT) {
+            return "Default"; // Return "Default" for DEFAULT enum value
+        }
+        return label;
+    }
+}

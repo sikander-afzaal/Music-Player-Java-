@@ -17,7 +17,7 @@ public class PlayList implements Iterable<AudioFile> {
 	ControllablePlayListIterator musicPlayer = new ControllablePlayListIterator(audioFiles);
 
 	public PlayList() {
-
+		
 	}
 
 	public PlayList(String m3uPathname) throws RuntimeException{
@@ -63,12 +63,13 @@ public class PlayList implements Iterable<AudioFile> {
 
 	public void loadFromM3U(String pathname) throws NotPlayableException {
 		getList().clear();
-		System.out.print(pathname);
+		
 		Scanner scanner = null;
 
 		try {
 			// open the file for reading
 			scanner = new Scanner(new File(pathname));
+			
 			// while there are lines the while loop runs
 			while (scanner.hasNextLine()) {
 				// stores the next line in this variable
@@ -79,6 +80,7 @@ public class PlayList implements Iterable<AudioFile> {
 				} else {
 					// else add the line / path to the List
 					try {
+						
 						getList().add(AudioFileFactory.createAudioFile(line));
 
 					} catch (Exception e) {

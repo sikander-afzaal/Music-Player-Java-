@@ -3,6 +3,9 @@ package studiplayer.ui;
 import java.io.File;
 
 import java.net.URL;
+import java.util.Collections;
+import java.util.List;
+
 import javafx.scene.control.TextField;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -25,6 +28,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import studiplayer.audio.AudioFile;
+import studiplayer.audio.AudioFileFactory;
 import studiplayer.audio.NotPlayableException;
 import studiplayer.audio.PlayList;
 import studiplayer.audio.SortCriterion;
@@ -41,12 +45,16 @@ public class Player extends Application {
 	private Button stopButton;
 	private Button pauseButton;
 	private Button nextButton;
+	private Button addSongBtn;
+	private Button shuffleBtn;
+	private Button removeSongBtn;
 	private Label playListLabel = new Label(PLAYLIST_DIRECTORY);
 	private Label playTimeLabel = new Label(INITIAL_PLAY_TIME_LABEL);
 	private Label currentSongLabel = new Label(NO_CURRENT_SONG);
 	private ChoiceBox<SortCriterion> sortChoiceBox = new ChoiceBox<>();
 	private TextField searchTextField = new TextField();
 	private Button filterButton = new Button("Display");
+	private Button changePlayListButton = new Button("Change Playlist");
 	private volatile boolean songPaused = false;
 
 	public Player() {
@@ -80,6 +88,7 @@ public class Player extends Application {
 
 	public Button createButton(String iconFile) {
 		Button button = null;
+
 		try {
 			URL url = getClass().getResource("/icons/" + iconFile);
 			Image icon = new Image(url.toString());
@@ -101,7 +110,7 @@ public class Player extends Application {
 		launch();
 	}
 
-	public void loadPlayer(BorderPane root) {
+	public void loadPlayer(BorderPane root, Stage stage) {
 		TitledPane filterPane = new TitledPane();
 		filterPane.setText("Filter");
 		GridPane filterGrid = new GridPane();
@@ -115,6 +124,7 @@ public class Player extends Application {
 		filterGrid.add(new Label("Sort By: "), 0, 1);
 		filterGrid.add(sortChoiceBox, 1, 1);
 		filterGrid.add(filterButton, 2, 1);
+		filterGrid.add(changePlayListButton, 3, 1);
 		filterPane.setContent(filterGrid);
 		root.setTop(filterPane);
 
@@ -145,14 +155,20 @@ public class Player extends Application {
 		pauseButton = createButton("pause.jpg");
 		stopButton = createButton("stop.jpg");
 		nextButton = createButton("next.jpg");
+		addSongBtn = createButton("add.jpg");
+		removeSongBtn = createButton("trash.jpg");
+		shuffleBtn = createButton("shuffle.jpg");
 
-		playbackButtonsBox.getChildren().addAll(playButton, pauseButton, stopButton, nextButton);
-		setButtonStates(false, true, true, false);
+		playbackButtonsBox.getChildren().addAll(playButton, pauseButton, stopButton, nextButton, addSongBtn,
+				removeSongBtn, shuffleBtn);
+		setButtonStates(false, true, true, false, false, true);
 		bottomPlayerBox.getChildren().add(currentSongDataBox);
 		bottomPlayerBox.getChildren().add(playbackButtonsBox);
 
 		root.setBottom(bottomPlayerBox);
 
+		
+		//method one of writing handlers -------
 		filterButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -163,6 +179,16 @@ public class Player extends Application {
 				stopCurrentSong();
 
 			}
+		});
+		
+		
+		//method two of writing handlers -------
+		changePlayListButton.setOnAction(e -> {		
+			stopCurrentSong();
+			final FileChooser fileChooser = new FileChooser();
+			File file = fileChooser.showOpenDialog(stage);
+			playList = new PlayList(file.getPath());
+			middleTable.refreshSongs(playList);
 		});
 
 		playButton.setOnAction(e -> {
@@ -186,6 +212,35 @@ public class Player extends Application {
 				stopCurrentSong();
 			}
 		});
+		addSongBtn.setOnAction(e -> {
+			stopCurrentSong();
+			final FileChooser fileChooser = new FileChooser();
+			File file = fileChooser.showOpenDialog(stage);
+			try {
+				playList.add(AudioFileFactory.createAudioFile(file.getPath()));
+			} catch (NotPlayableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			middleTable.refreshSongs(playList);
+			playList.saveAsM3U(playListLabel.getText());
+
+		});
+		removeSongBtn.setOnAction(e -> {
+			stopCurrentSong();
+			playList.remove(middleTable.getSelectionModel().getSelectedItem().getAudioFile());
+			middleTable.refreshSongs(playList);
+			playList.saveAsM3U(playListLabel.getText());
+
+		});
+		shuffleBtn.setOnAction(e -> {
+			if (playList.getSortCriterion() == SortCriterion.DEFAULT) {
+				stopCurrentSong();
+				Collections.shuffle(playList.getList());
+				middleTable.refreshSongs(playList);
+				playList.saveAsM3U(playListLabel.getText());
+			}
+		});
 	}
 
 	private void pauseCurrentSong() {
@@ -197,7 +252,7 @@ public class Player extends Application {
 			terminateThreads(true); // Stop player thread but keep timer thread
 		}
 		playList.currentAudioFile().togglePause();
-		setButtonStates(true, false, false, false);
+		setButtonStates(true, false, false, false, false, false);
 		updateSongInfo(playList.currentAudioFile());
 
 	}
@@ -208,7 +263,7 @@ public class Player extends Application {
 		if (playList.currentAudioFile() != null) {
 			playList.currentAudioFile().stop();
 		}
-		setButtonStates(false, true, true, false);
+		setButtonStates(false, true, true, false, false, true);
 		updateSongInfo(null);
 
 	}
@@ -216,7 +271,7 @@ public class Player extends Application {
 	private void nextSong() {
 		stopCurrentSong(); // Stop the current song before moving to the next one
 		playList.nextSong();
-		setButtonStates(true, false, false, false);
+		setButtonStates(true, false, false, false, false, false);
 		updateSongInfo(playList.currentAudioFile());
 		playCurrentSong();
 
@@ -231,17 +286,20 @@ public class Player extends Application {
 		} else {
 			startThreads(false);
 		}
-		setButtonStates(true, false, false, false);
+		middleTable.selectSong(playList.currentAudioFile());
+		setButtonStates(true, false, false, false, false, false);
 		updateSongInfo(playList.currentAudioFile());
 	}
 
 	private void setButtonStates(boolean playButtonState, boolean pauseButtonState, boolean stopButtonState,
-			boolean nextButtonState) {
+			boolean nextButtonState, boolean addButtonState, boolean removeButtonState) {
 		Platform.runLater(() -> {
 			pauseButton.setDisable(pauseButtonState);
 			playButton.setDisable(playButtonState);
 			stopButton.setDisable(stopButtonState);
 			nextButton.setDisable(nextButtonState);
+			addSongBtn.setDisable(addButtonState);
+			removeSongBtn.setDisable(removeButtonState);
 		});
 
 	}
@@ -273,7 +331,7 @@ public class Player extends Application {
 					}
 				} catch (NotPlayableException e) {
 					// Handle exception gracefully
-					
+
 					// Optionally, interrupt thread or take appropriate action
 					Thread.currentThread().interrupt();
 				}
@@ -346,14 +404,14 @@ public class Player extends Application {
 		if (useCertPlayList) {
 			loadPlayList(DEFAULT_PLAYLIST);
 			playListLabel.setText(DEFAULT_PLAYLIST);
-			loadPlayer(root);
+			loadPlayer(root, primaryStage);
 		} else {
 			final FileChooser fileChooser = new FileChooser();
 			File file = fileChooser.showOpenDialog(primaryStage);
 			if (file != null) {
 				loadPlayList(file.getPath());
 				playListLabel.setText(file.getPath());
-				loadPlayer(root);
+				loadPlayer(root, primaryStage);
 
 			} else {
 				loadPlayList(null);

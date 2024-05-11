@@ -65,7 +65,7 @@ public class PlayList implements Iterable<AudioFile> {
 		getList().clear();
 		
 		Scanner scanner = null;
-
+		
 		try {
 			// open the file for reading
 			scanner = new Scanner(new File(pathname));
@@ -81,7 +81,7 @@ public class PlayList implements Iterable<AudioFile> {
 					// else add the line / path to the List
 					try {
 						
-						getList().add(AudioFileFactory.createAudioFile(line));
+						getList().add( AudioFileFactory.createAudioFile(line));
 
 					} catch (Exception e) {
 						continue;

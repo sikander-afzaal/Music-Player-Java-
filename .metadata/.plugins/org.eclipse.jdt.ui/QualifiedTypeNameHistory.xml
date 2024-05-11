@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.time.Duration"/>
-    <fullyQualifiedTypeName name="task6.AudioFile"/>
-    <fullyQualifiedTypeName name="java.io.FileWriter"/>
-    <fullyQualifiedTypeName name="AudioFile"/>
-    <fullyQualifiedTypeName name="TaggedFile"/>
-    <fullyQualifiedTypeName name="WavFile"/>
-    <fullyQualifiedTypeName name="AudioFileFactory"/>
-    <fullyQualifiedTypeName name="com.sun.tools.sjavac.Package"/>
     <fullyQualifiedTypeName name="studiplayer.basic.TagReader"/>
     <fullyQualifiedTypeName name="java.util.ListIterator"/>
     <fullyQualifiedTypeName name="org.junit.runner.JUnitCommandLineParseResult.CommandLineParserError"/>
     <fullyQualifiedTypeName name="java.util.Comparator"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="studioplayer.audio.AudioFileFactory"/>
     <fullyQualifiedTypeName name="studioplayer.audio.WavFile"/>
     <fullyQualifiedTypeName name="studioplayer.audio.TaggedFile"/>
@@ -23,8 +14,6 @@
     <fullyQualifiedTypeName name="studioplayer.audio.DurationComparator"/>
     <fullyQualifiedTypeName name="studioplayer.audio.PlayList"/>
     <fullyQualifiedTypeName name="java.lang.Iterable"/>
-    <fullyQualifiedTypeName name="org.junit.validator.PublicClassValidator"/>
-    <fullyQualifiedTypeName name="javax.management.loading.PrivateClassLoader"/>
     <fullyQualifiedTypeName name="javax.sql.rowset.spi.SyncProvider"/>
     <fullyQualifiedTypeName name="java.util.Iterator"/>
     <fullyQualifiedTypeName name="studioplayer.audio.ControllablePlayListIterator"/>
@@ -43,9 +32,6 @@
     <fullyQualifiedTypeName name="javafx.application.Application"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="java.awt.TextField"/>
-    <fullyQualifiedTypeName name="java.util.LinkedList"/>
-    <fullyQualifiedTypeName name="studiplayer.audio.AudioFile"/>
-    <fullyQualifiedTypeName name="studiplayer.audio.PlayList"/>
     <fullyQualifiedTypeName name="javafx.scene.control.TitledPane"/>
     <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
     <fullyQualifiedTypeName name="javafx.scene.control.ChoiceBox"/>
@@ -56,8 +42,22 @@
     <fullyQualifiedTypeName name="javafx.scene.control.Label"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.HBox"/>
     <fullyQualifiedTypeName name="javafx.geometry.Pos"/>
-    <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="studiplayer.audio.SortCriterion"/>
     <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="java.util.random.RandomGenerator.JumpableGenerator"/>
+    <fullyQualifiedTypeName name="javax.management.loading.PrivateClassLoader"/>
+    <fullyQualifiedTypeName name="org.junit.validator.PublicClassValidator"/>
+    <fullyQualifiedTypeName name="java.lang.Void"/>
+    <fullyQualifiedTypeName name="java.lang.Thread"/>
+    <fullyQualifiedTypeName name="studiplayer.ui.Player.TimerThread"/>
+    <fullyQualifiedTypeName name="studiplayer.ui.Player.PlayerThread"/>
+    <fullyQualifiedTypeName name="javafx.application.Platform"/>
+    <fullyQualifiedTypeName name="studiplayer.audio.AudioFile"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.BorderPane"/>
+    <fullyQualifiedTypeName name="studiplayer.ui.Player"/>
     <fullyQualifiedTypeName name="studiplayer.ui.SongTable"/>
+    <fullyQualifiedTypeName name="studiplayer.audio.PlayList"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
 </qualifiedTypeNameHistroy>

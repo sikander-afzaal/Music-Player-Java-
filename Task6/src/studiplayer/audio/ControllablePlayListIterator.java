@@ -1,8 +1,11 @@
 package studiplayer.audio;
 
 import java.util.Iterator;
+
 import java.util.LinkedList;
 import java.util.List;
+
+
 
 public class ControllablePlayListIterator implements Iterator<AudioFile> {
 	protected int currentIdx = 0; // determines the current idx at which we are in the playlist
@@ -57,6 +60,7 @@ public class ControllablePlayListIterator implements Iterator<AudioFile> {
 	}
 
 	public AudioFile getCurrentAudioFile() {
+		
 		if (playListSortedAndFiltered.isEmpty()) {
 			return null;
 		} else if (getCurrentIdx() >= playListSortedAndFiltered.size()) {
@@ -116,7 +120,7 @@ public class ControllablePlayListIterator implements Iterator<AudioFile> {
 		if (musicToJumpToIdx != -1) {
 			int idxDiff = musicToJumpToIdx - getCurrentIdx();
 			if(idxDiff > 0) {
-				for(int i = 1; i <= idxDiff; i++) {
+				for(int i = 0; i < idxDiff; i++) {
 					this.next();
 				}
 			}else if(idxDiff < 0) {
@@ -125,9 +129,8 @@ public class ControllablePlayListIterator implements Iterator<AudioFile> {
 					this.next();
 				}
 				
-			}else if (idxDiff == 0) {
-				setCurrentIdx(musicToJumpToIdx + 1);
 			}
+			
 			
 			return this.playListSortedAndFiltered.get(musicToJumpToIdx); // returns the new song that we need
 		} else {

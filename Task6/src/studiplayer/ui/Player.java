@@ -1,9 +1,11 @@
 package studiplayer.ui;
 
 import java.io.File;
+
 import java.net.URL;
 import javafx.scene.control.TextField;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,16 +24,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import studiplayer.audio.AudioFile;
+import studiplayer.audio.NotPlayableException;
 import studiplayer.audio.PlayList;
 import studiplayer.audio.SortCriterion;
 
 public class Player extends Application {
-	public static String DEFAULT_PLAYLIST = "playlists/playList.cert.m3u";
-	private static String PLAYLIST_DIRECTORY = "playlists";
-	private static String INITIAL_PLAY_TIME_LABEL = "00:00";
-	private static String NO_CURRENT_SONG = "-";
+	public static final String DEFAULT_PLAYLIST = "playlists/DefaultPlayList.m3u";
+	private static final String PLAYLIST_DIRECTORY = "playlists";
+	private static final String INITIAL_PLAY_TIME_LABEL = "00:00";
+	private static final String NO_CURRENT_SONG = "-";
 	private boolean useCertPlayList = false;
 	private PlayList playList = new PlayList();
+	SongTable middleTable = new SongTable(playList);
 	private Button playButton;
 	private Button stopButton;
 	private Button pauseButton;
@@ -43,13 +47,18 @@ public class Player extends Application {
 	private ChoiceBox<SortCriterion> sortChoiceBox = new ChoiceBox<>();
 	private TextField searchTextField = new TextField();
 	private Button filterButton = new Button("Display");
+	private volatile boolean songPaused = false;
+
+	public Player() {
+		playList = new PlayList();
+	}
 
 	public void setPlayList(String pathname) {
-		if (useCertPlayList) {
+		if (useCertPlayList && pathname.isEmpty()) {
 			playList = new PlayList(DEFAULT_PLAYLIST);
 		} else {
 			playList = new PlayList(pathname);
-			
+
 		}
 	}
 
@@ -60,8 +69,12 @@ public class Player extends Application {
 	public void loadPlayList(String pathname) {
 		if (pathname == null || pathname.isEmpty()) {
 			setPlayList(DEFAULT_PLAYLIST);
+			middleTable.refreshSongs(playList);
+
 		} else {
 			setPlayList(pathname);
+			middleTable.refreshSongs(playList);
+
 		}
 	}
 
@@ -76,7 +89,7 @@ public class Player extends Application {
 			button = new Button("", imageView);
 			button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 			button.setStyle("-fx-background-color: #fff;");
-			
+
 		} catch (Exception e) {
 			System.out.println("Image " + "icons/" + iconFile + " not found!");
 			System.exit(-1);
@@ -88,93 +101,265 @@ public class Player extends Application {
 		launch();
 	}
 
-	public void start(Stage primaryStage) throws Exception {
-		BorderPane root = new BorderPane();
-		primaryStage.setTitle("Music Player");
+	public void loadPlayer(BorderPane root) {
+		TitledPane filterPane = new TitledPane();
+		filterPane.setText("Filter");
+		GridPane filterGrid = new GridPane();
+		filterGrid.setVgap(4);
+		filterGrid.setHgap(8);
+		sortChoiceBox.getItems().addAll(SortCriterion.values());
+		sortChoiceBox.setValue(SortCriterion.DEFAULT);
+		filterGrid.setPadding(new Insets(5, 5, 5, 5));
+		filterGrid.add(new Label("Search String: "), 0, 0); // col, row, col span, row span
+		filterGrid.add(searchTextField, 1, 0);
+		filterGrid.add(new Label("Sort By: "), 0, 1);
+		filterGrid.add(sortChoiceBox, 1, 1);
+		filterGrid.add(filterButton, 2, 1);
+		filterPane.setContent(filterGrid);
+		root.setTop(filterPane);
 
-		final FileChooser fileChooser = new FileChooser();
+		// middle area (table part) ------------------------------
 
-		final Button openButton = new Button("Load a Playlist");
+		root.setCenter(middleTable);
 
-		// adding an event listner to the button
-		openButton.setOnAction(new EventHandler<ActionEvent>() {
+		// bottom part ----------------------------
+		VBox bottomPlayerBox = new VBox();
+		GridPane currentSongDataBox = new GridPane();
+		currentSongDataBox.setVgap(6);
+		currentSongDataBox.setHgap(10);
+		currentSongDataBox.setPadding(new Insets(8, 8, 8, 8));
+		currentSongDataBox.add(new Label("Playlist: "), 0, 0); // col, row, col span, row span
+		currentSongDataBox.add(playListLabel, 1, 0);
+
+		currentSongDataBox.add(new Label("Current Song: "), 0, 1); // col, row, col span, row span
+		currentSongDataBox.add(currentSongLabel, 1, 1);
+		currentSongDataBox.add(new Label("Playtime: "), 0, 2); // col, row, col span, row span
+		currentSongDataBox.add(playTimeLabel, 1, 2);
+
+		// play pause buttons at the bottom ;-------------------------
+		HBox playbackButtonsBox = new HBox();
+		playbackButtonsBox.setAlignment(Pos.CENTER);
+		playbackButtonsBox.setSpacing(8);
+		playbackButtonsBox.setPadding(new Insets(0, 8, 12, 8));
+		playButton = createButton("play.jpg");
+		pauseButton = createButton("pause.jpg");
+		stopButton = createButton("stop.jpg");
+		nextButton = createButton("next.jpg");
+
+		playbackButtonsBox.getChildren().addAll(playButton, pauseButton, stopButton, nextButton);
+		setButtonStates(false, true, true, false);
+		bottomPlayerBox.getChildren().add(currentSongDataBox);
+		bottomPlayerBox.getChildren().add(playbackButtonsBox);
+
+		root.setBottom(bottomPlayerBox);
+
+		filterButton.setOnAction(new EventHandler<ActionEvent>() {
+
 			@Override
-			public void handle(final ActionEvent e) {
-				// loading the playlist if it loads show the data else show the button again
-				File file = fileChooser.showOpenDialog(primaryStage);
-				if (file != null) {
-					loadPlayList(file.getPath());
-					root.getChildren().remove(openButton); // removing the load Playlist button
-					TitledPane filterPane = new TitledPane();
-					filterPane.setText("Filter");
-					GridPane filterGrid = new GridPane();
-					filterGrid.setVgap(4);
-					filterGrid.setHgap(8);
-					sortChoiceBox.getItems().addAll(SortCriterion.values());
-					sortChoiceBox.setValue(SortCriterion.DEFAULT);
-					filterGrid.setPadding(new Insets(5, 5, 5, 5));
-					filterGrid.add(new Label("Search String: "), 0, 0); // col, row, col span, row span
-					filterGrid.add(searchTextField, 1, 0);
-					filterGrid.add(new Label("Sort By: "), 0, 1);
-					filterGrid.add(sortChoiceBox, 1, 1);
-					filterGrid.add(filterButton, 2, 1);
-					filterPane.setContent(filterGrid);
-					root.setTop(filterPane);
+			public void handle(ActionEvent arg0) {
+				playList.setSearch(searchTextField.getText());
+				playList.setSortCriterion(sortChoiceBox.getValue());
+				middleTable.refreshSongs(playList);
+				stopCurrentSong();
 
-					// middle area (table part) ------------------------------
-					SongTable middleTable = new SongTable(playList);
-					root.setCenter(middleTable);
-
-					// bottom part ----------------------------
-					VBox bottomPlayerBox = new VBox();
-					GridPane currentSongDataBox = new GridPane();
-					currentSongDataBox.setVgap(6);
-					currentSongDataBox.setHgap(10);
-					currentSongDataBox.setPadding(new Insets(8, 8, 8, 8));
-					currentSongDataBox.add(new Label("Playlist: "), 0, 0); // col, row, col span, row span
-					currentSongDataBox.add(playListLabel, 1, 0);
-					currentSongDataBox.add(new Label("Current Song: "), 0, 1); // col, row, col span, row span
-					currentSongDataBox.add(currentSongLabel, 1, 1);
-					currentSongDataBox.add(new Label("Playtime: "), 0, 2); // col, row, col span, row span
-					currentSongDataBox.add(playTimeLabel, 1, 2);
-					
-					//play pause buttons at the bottom -------------------------
-					HBox playbackButtonsBox = new HBox();
-					playbackButtonsBox.setAlignment(Pos.CENTER);
-					playbackButtonsBox.setSpacing(8);
-					playbackButtonsBox.setPadding(new Insets(0,8,12,8));
-					playButton = createButton("play.jpg");
-					pauseButton = createButton("pause.jpg");
-					stopButton = createButton("stop.jpg");
-					nextButton = createButton("next.jpg");
-					
-					playbackButtonsBox.getChildren().addAll(playButton,pauseButton,stopButton,nextButton);
-					
-					bottomPlayerBox.getChildren().add(currentSongDataBox);
-					bottomPlayerBox.getChildren().add(playbackButtonsBox);
-
-					root.setBottom(bottomPlayerBox);
-					
-					
-					filterButton.setOnAction(new EventHandler<ActionEvent>() {
-						
-						@Override
-						public void handle(ActionEvent arg0) {
-							playList.setSearch(searchTextField.getText());
-							playList.setSortCriterion(sortChoiceBox.getValue());
-							middleTable.refreshSongs();
-							
-						}
-					});
-				
-
-				} else {
-					loadPlayList(null);
-				}
 			}
 		});
 
-		root.setCenter(openButton); // setting the button on the scene
+		playButton.setOnAction(e -> {
+			playCurrentSong();
+		});
+		pauseButton.setOnAction(e -> {
+			pauseCurrentSong();
+		});
+		stopButton.setOnAction(e -> {
+			stopCurrentSong();
+		});
+		nextButton.setOnAction(e -> {
+			nextSong();
+			middleTable.selectSong(playList.currentAudioFile());
+
+		});
+		middleTable.setRowSelectionHandler(event -> {
+			if (!middleTable.getSelectionModel().isEmpty()) {
+				playList.jumpToAudioFile(middleTable.getSelectionModel().getSelectedItem().getAudioFile());
+				middleTable.selectSong(middleTable.getSelectionModel().getSelectedItem().getAudioFile());
+				stopCurrentSong();
+			}
+		});
+	}
+
+	private void pauseCurrentSong() {
+		if (songPaused) {
+			songPaused = false;
+			startThreads(true);
+		} else {
+			songPaused = true;
+			terminateThreads(true); // Stop player thread but keep timer thread
+		}
+		playList.currentAudioFile().togglePause();
+		setButtonStates(true, false, false, false);
+		updateSongInfo(playList.currentAudioFile());
+
+	}
+
+	private void stopCurrentSong() {
+		terminateThreads(false); // Stop both player and timer threads
+		songPaused = false;
+		if (playList.currentAudioFile() != null) {
+			playList.currentAudioFile().stop();
+		}
+		setButtonStates(false, true, true, false);
+		updateSongInfo(null);
+
+	}
+
+	private void nextSong() {
+		stopCurrentSong(); // Stop the current song before moving to the next one
+		playList.nextSong();
+		setButtonStates(true, false, false, false);
+		updateSongInfo(playList.currentAudioFile());
+		playCurrentSong();
+
+	}
+
+	private void playCurrentSong() {
+		if (songPaused) {
+			songPaused = false;
+			startThreads(true);
+			playList.currentAudioFile().togglePause();
+
+		} else {
+			startThreads(false);
+		}
+		setButtonStates(true, false, false, false);
+		updateSongInfo(playList.currentAudioFile());
+	}
+
+	private void setButtonStates(boolean playButtonState, boolean pauseButtonState, boolean stopButtonState,
+			boolean nextButtonState) {
+		Platform.runLater(() -> {
+			pauseButton.setDisable(pauseButtonState);
+			playButton.setDisable(playButtonState);
+			stopButton.setDisable(stopButtonState);
+			nextButton.setDisable(nextButtonState);
+		});
+
+	}
+
+	private void updateSongInfo(AudioFile af) {
+		Platform.runLater(() -> {
+
+			if (af != null) {
+				currentSongLabel.setText(af.getTitle());
+				playTimeLabel.setText(af.formatPosition());
+
+			} else {
+				currentSongLabel.setText(NO_CURRENT_SONG);
+				playTimeLabel.setText(INITIAL_PLAY_TIME_LABEL);
+			}
+		});
+	}
+
+	class PlayerThread extends Thread {
+		private volatile boolean stopped = false;
+
+		public void run() {
+			while (!stopped && playList.currentAudioFile() != null) {
+				try {
+					playList.currentAudioFile().play();
+					if (!stopped) {
+						playList.nextSong();
+						updateSongInfo(playList.currentAudioFile());
+					}
+				} catch (NotPlayableException e) {
+					// Handle exception gracefully
+					
+					// Optionally, interrupt thread or take appropriate action
+					Thread.currentThread().interrupt();
+				}
+			}
+		}
+
+		public void terminate() {
+			stopped = true;
+		}
+	}
+
+	class TimerThread extends Thread {
+		private volatile boolean stopped = false;
+
+		public void run() {
+			while (!stopped && playList.currentAudioFile() != null) {
+				updateSongInfo(playList.currentAudioFile());
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			}
+		}
+
+		public void terminate() {
+			stopped = true;
+		}
+	}
+
+	private void startThreads(boolean onlyTimer) {
+		// Create and start TimerThread
+		if (!timerThread.isAlive()) {
+			timerThread = new TimerThread();
+			timerThread.start();
+		}
+
+		if (!onlyTimer) {
+			// Create and start PlayerThread
+			if (!playerThread.isAlive()) {
+				playerThread = new PlayerThread();
+				playerThread.start();
+			}
+		}
+	}
+
+	private void terminateThreads(boolean onlyTimer) {
+		// Terminate TimerThread
+		if (timerThread != null) {
+			timerThread.terminate();
+			timerThread.interrupt(); // Interrupt the thread to ensure it exits gracefully
+		}
+
+		if (!onlyTimer) {
+			// Terminate PlayerThread
+			if (playerThread != null) {
+				playerThread.terminate();
+				playerThread.interrupt(); // Interrupt the thread to ensure it exits gracefully
+			}
+		}
+	}
+
+	TimerThread timerThread = new TimerThread();
+	PlayerThread playerThread = new PlayerThread();
+
+	public void start(Stage primaryStage) throws Exception {
+		BorderPane root = new BorderPane();
+		primaryStage.setTitle("APA Player");
+
+		if (useCertPlayList) {
+			loadPlayList(DEFAULT_PLAYLIST);
+			playListLabel.setText(DEFAULT_PLAYLIST);
+			loadPlayer(root);
+		} else {
+			final FileChooser fileChooser = new FileChooser();
+			File file = fileChooser.showOpenDialog(primaryStage);
+			if (file != null) {
+				loadPlayList(file.getPath());
+				playListLabel.setText(file.getPath());
+				loadPlayer(root);
+
+			} else {
+				loadPlayList(null);
+			}
+
+		}
 
 		// filter area ---------------------------------------------
 

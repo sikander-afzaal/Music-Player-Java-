@@ -331,6 +331,7 @@ public class PlayerTest {
 
 			// Compare: probe 2 should be ahead of probe 1
 			// Note: we compare the formatted string representations here
+			System.out.println("pos1 " + pos1 + " pos2 " + pos2);
 			assertTrue(eventSequence + " Abspielzeit nicht aktualisiert", pos1.compareTo(pos2) < 0);
 			printDebug(String.format("playtime pos1: %s", pos1));
 			printDebug(String.format("playtime pos2: %s", pos2));
@@ -371,6 +372,7 @@ public class PlayerTest {
 	    wait(1);
 	    pressButton(filter);
 	    PlayList list = getElement("playList", PlayList.class);
+	    
 	    Iterator<AudioFile> iterator = list.iterator();
         assertTrue("Iterator should have more elements", iterator.hasNext());
         assertEquals("Element should be Henrik Klagges - Road Movie - The Sea, the Sky", "Henrik Klagges - Road Movie - The Sea, the Sky - 03:01", iterator.next().toString());

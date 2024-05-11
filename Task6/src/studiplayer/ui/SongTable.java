@@ -46,7 +46,7 @@ public class SongTable extends TableView<Song> {
 		getColumns().add(albumColumn);
 		getColumns().add(laengeColumn);
         setEditable(false);
-        refreshSongs();
+        refreshSongs(this.playList);
 	}
 
 	/**
@@ -61,9 +61,9 @@ public class SongTable extends TableView<Song> {
 	/**
 	 * Zeigt die Tabelle neu an nach Änderungen (Einträge, Konfiguration) an der PlayListe 
 	 */
-	public void refreshSongs() {
+	public void refreshSongs(PlayList newPlaylist) {
 		tableData.clear();
-		for (AudioFile af : playList) {
+		for (AudioFile af : newPlaylist) {
 			String album = "";
 			String laenge = "";
 			
@@ -84,11 +84,11 @@ public class SongTable extends TableView<Song> {
 	 * @param song
 	 */
 	public void selectSong(AudioFile song) {
-		AudioFile currentAudioFile = playList.currentAudioFile();
+		
 		int index = 0;
 		
 		for (Song s : tableData) {
-			if (s.getAudioFile() == currentAudioFile) {
+			if (s.getAudioFile() == song) {
 				getSelectionModel().select(index);
 			}
 			++index;
